@@ -10,35 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install -r app/requirements.txt
+      - name: Install dependencies
+        run: pip install -r app/requirements.txt
+
+      - name: Create scans directory
+        run: mkdir -p scans
 
       - name: Run GitLeaks scan
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --config-path .gitleaks.toml --report-format json --report-path scans/gitleaks.json
+          config-path: .gitleaks.toml
+          report-format: json
+          report-path: scans/gitleaks.json
+        env:
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
-    - name: Run Trivy scan
-      uses: aquasecurity/trivy-action@v0.8.0
-      with:
-        scan-type: fs
-        scan-ref: ./app
-        format: json
-        output: scans/trivy.json
+      - name: Install Trivy CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.39.3_Linux-64bit.deb
+          sudo dpkg -i trivy_0.39.3_Linux-64bit.deb
 
-    - name: Compare with exposure memory and update
-      run: python3 scripts/compare.py
+      - name: Run Trivy scan
+        run: trivy fs --format json --output scans/trivy.json ./app
 
-    - name: Generate dashboard data
-      run: python3 scripts/generate_dashboard.py
+      - name: Compare with exposure memory and update
+        run: python3 scripts/compare.py
 
-    - name: Alert on repeated vulnerabilities
-      run: python3 scripts/alert.py
+      - name: Generate dashboard data
+        run: python3 scripts/generate_dashboard.py
+
+      - name: Alert on repeated vulnerabilities
+        run: python3 scripts/alert.py
