@@ -1,0 +1,14 @@
+[[rules]]
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key\s*=\s*['"][a-z0-9_\-]{16,}['"])'''
+tags = ["key", "API"]
+
+[[rules]]
+description = "Stripe API Key"
+regex = '''sk_(live|test)_[0-9a-zA-Z]{16,}'''
+tags = ["key", "stripe"]
+
+[[rules]]
+description = "Hardcoded Database Password"
+regex = '''DATABASE_PASSWORD\s*=\s*['"][^'"]+['"]'''
+tags = ["password"]

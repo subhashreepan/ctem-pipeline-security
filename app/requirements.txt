@@ -1,0 +1,13 @@
+flask==3.1.1
+jinja2
+gunicorn
+sqlite-utils
+pandas
+python-dateutil
+pyyaml
+orjson
+python-dotenv
+pathlib
+deepdiff
+tqdm
+requests
