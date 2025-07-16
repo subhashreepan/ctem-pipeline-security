@@ -8,6 +8,7 @@ on:
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
           args: detect --source . --config-path .gitleaks.toml --report-format json --report-path scans/gitleaks.json
 
       - name: Run Trivy scan
-        uses: aquasecurity/trivy-action@v0.2.0
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
           scan-ref: ./app
