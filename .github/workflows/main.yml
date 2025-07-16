@@ -21,10 +21,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r app/requirements.txt
 
+      - name: Create scans directory
+        run: mkdir -p scans
+
       - name: Run GitLeaks scan
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --config-path .gitleaks.toml --report-format json --report-path scans/gitleaks.json
+          config-path: .gitleaks.toml
+          report-format: json
+          report-path: scans/gitleaks.json
+        env:
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
       - name: Run Trivy scan
         uses: aquasecurity/trivy-action@master
