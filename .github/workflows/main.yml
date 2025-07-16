@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0    # full git history for diff scanning
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -23,26 +21,29 @@ jobs:
       - name: Install dependencies
         run: pip install -r app/requirements.txt
 
+      - name: Install Trivy scanner via official apt repo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+          curl -fsSL https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
       - name: Create scans directory
         run: mkdir -p scans
 
       - name: Run GitLeaks scan
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --config-path .gitleaks.toml --report-format json --report-path scans/gitleaks.json --verbose
+          config-path: .gitleaks.toml
+          report-format: json
+          report-path: scans/gitleaks.json
         env:
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
-      - name: Install Trivy scanner
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.41.0_Linux-64bit.deb
-          sudo dpkg -i trivy_0.41.0_Linux-64bit.deb
-
-      - name: Run Trivy scan
-        run: |
-          trivy fs --format json --output scans/trivy.json ./app
+      - name: Run Trivy scan on app directory
+        run: trivy fs --format json --output scans/trivy.json ./app
 
       - name: Compare with exposure memory and update
         run: python3 scripts/compare.py
