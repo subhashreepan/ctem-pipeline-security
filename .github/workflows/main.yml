@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0    # full git history for diff scanning
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -27,21 +29,20 @@ jobs:
       - name: Run GitLeaks scan
         uses: gitleaks/gitleaks-action@v2
         with:
-          config-path: .gitleaks.toml
-          report-format: json
-          report-path: scans/gitleaks.json
+          args: detect --source . --config-path .gitleaks.toml --report-format json --report-path scans/gitleaks.json --verbose
         env:
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
-      - name: Install Trivy CLI
+      - name: Install Trivy scanner
         run: |
           sudo apt-get update
           sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.39.3_Linux-64bit.deb
-          sudo dpkg -i trivy_0.39.3_Linux-64bit.deb
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.41.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.41.0_Linux-64bit.deb
 
       - name: Run Trivy scan
-        run: trivy fs --format json --output scans/trivy.json ./app
+        run: |
+          trivy fs --format json --output scans/trivy.json ./app
 
       - name: Compare with exposure memory and update
         run: python3 scripts/compare.py
