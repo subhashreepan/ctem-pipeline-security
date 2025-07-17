@@ -29,10 +29,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run GitLeaks scan
-        uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
-        with:
-          args: --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif
+        run: |
+          gitleaks detect --source . \
+            --redact \
+            --report-format sarif \
+            --report-path results.sarif \
+            --exit-code 2
 
       - name: Upload SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
