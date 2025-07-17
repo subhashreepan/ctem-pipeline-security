@@ -1,59 +1,65 @@
-name: CTEM Pipeline Security
+name: CTEM Security Scan
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  security-scan:
+  ctem-scan:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # GitLeaks - secrets scanning (non-fatal)
-    - name: Run GitLeaks scan
-      uses: gitleaks/gitleaks-action@v2
-      continue-on-error: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    # Trivy - CVEs and Misconfig scan with install workaround
-    - name: Install Trivy
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-        sudo apt-get update -y
-        sudo apt-get install trivy -y
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run Trivy file system scan
-      run: trivy fs . --exit-code 0 --format table --output trivy-results.txt
+      - name: Run GitLeaks scan
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif --log-level=debug --log-opts=-1
 
-    # Memory Comparison Script
-    - name: Run Vulnerability Memory Tracker
-      run: python memory_tracker.py
-      working-directory: ./scripts
+      - name: Upload GitLeaks SARIF results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+          category: gitleaks
 
-    # Upload GitLeaks SARIF report to GitHub Security tab
-    - name: Upload GitLeaks SARIF report
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: results.sarif
-      continue-on-error: true
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget -y
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.deb
+          sudo dpkg -i trivy_0.50.2_Linux-64bit.deb
 
-    # Upload Trivy result artifact
-    - name: Upload Trivy scan results
-      uses: actions/upload-artifact@v4
-      with:
-        name: trivy-results
-        path: trivy-results.txt
+      - name: Run Trivy vulnerability scan
+        run: trivy fs . --exit-code 0 --format json --output trivy-results.json
 
-    # Upload SQLite memory DB as artifact
-    - name: Upload vulnerability memory DB
-      uses: actions/upload-artifact@v4
-      with:
-        name: vuln-memory
-        path: ./scripts/vuln_memory.db
+      - name: Upload Trivy results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.json
+
+      - name: Run CTEM memory tracker
+        run: python scripts/memory_tracker.py
+
+      - name: Upload SQLite DB
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctem-memory
+          path: memory/memory.db
