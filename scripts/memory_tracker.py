@@ -1,69 +1,41 @@
-import os
-import json
 import sqlite3
-from datetime import datetime
+import json
+import os
 
-TRIVY_REPORT = "trivy-results.json"
-DB_PATH = "memory/memory.db"
+# Create memory directory if it doesn't exist
+os.makedirs("memory", exist_ok=True)
 
-def init_db():
-    os.makedirs("memory", exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS vulnerabilities (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            vuln_id TEXT,
-            pkg_name TEXT,
-            version TEXT,
-            severity TEXT,
-            description TEXT,
-            timestamp TEXT
-        )
-    """)
-    conn.commit()
-    return conn
+# Load new scan results (mockup for now)
+with open("trivy-results.json", "r") as f:
+    new_data = json.load(f)
 
-def parse_trivy_report():
-    if not os.path.exists(TRIVY_REPORT):
-        print("Trivy report not found.")
-        return []
-    with open(TRIVY_REPORT) as f:
-        data = json.load(f)
-    vulns = []
-    for result in data.get("Results", []):
-        for vuln in result.get("Vulnerabilities", []):
-            vulns.append({
-                "vuln_id": vuln["VulnerabilityID"],
-                "pkg_name": vuln["PkgName"],
-                "version": vuln["InstalledVersion"],
-                "severity": vuln["Severity"],
-                "description": vuln.get("Title", "N/A"),
-            })
-    return vulns
+# Connect to SQLite database
+conn = sqlite3.connect("memory/memory.db")
+c = conn.cursor()
 
-def record_vulns(conn, vulns):
-    c = conn.cursor()
-    for v in vulns:
-        c.execute("""
-            INSERT INTO vulnerabilities (vuln_id, pkg_name, version, severity, description, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (
-            v["vuln_id"],
-            v["pkg_name"],
-            v["version"],
-            v["severity"],
-            v["description"],
-            datetime.utcnow().isoformat()
+# Create table if it doesn't exist
+c.execute('''
+    CREATE TABLE IF NOT EXISTS vulnerabilities (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vuln_id TEXT,
+        pkg_name TEXT,
+        severity TEXT,
+        detected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+''')
+
+# Insert new scan results
+for result in new_data.get("Results", []):
+    for vuln in result.get("Vulnerabilities", []):
+        c.execute('''
+            INSERT INTO vulnerabilities (vuln_id, pkg_name, severity)
+            VALUES (?, ?, ?)
+        ''', (
+            vuln.get("VulnerabilityID", "UNKNOWN"),
+            vuln.get("PkgName", "UNKNOWN"),
+            vuln.get("Severity", "UNKNOWN")
         ))
-    conn.commit()
 
-if __name__ == "__main__":
-    conn = init_db()
-    vulns = parse_trivy_report()
-    if vulns:
-        record_vulns(conn, vulns)
-        print(f"{len(vulns)} vulnerabilities recorded.")
-    else:
-        print("No new vulnerabilities to record.")
-    conn.close()
+conn.commit()
+conn.close()
+print("Memory updated successfully.")
