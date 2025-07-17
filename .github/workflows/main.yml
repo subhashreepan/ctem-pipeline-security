@@ -1,4 +1,4 @@
-name: CTEM Security Scan
+name: CTEM Pipeline
 
 on:
   push:
@@ -6,12 +6,16 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  security-events: write  # Required for SARIF upload
+
 jobs:
   ctem-scan:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -28,38 +32,25 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
         with:
-          args: detect --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif --log-level=debug --log-opts=-1
+          args: --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif
 
-      - name: Upload GitLeaks SARIF results
-        if: always()
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Upload SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()  # Upload SARIF even if gitleaks fails
         with:
           sarif_file: results.sarif
-          category: gitleaks
 
       - name: Install Trivy
         run: |
           sudo apt-get update
-          sudo apt-get install wget -y
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.deb
-          sudo dpkg -i trivy_0.50.2_Linux-64bit.deb
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
 
-      - name: Run Trivy vulnerability scan
-        run: trivy fs . --exit-code 0 --format json --output trivy-results.json
+      - name: Run Trivy scan
+        run: trivy fs . --format table --exit-code 0
 
-      - name: Upload Trivy results as artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: trivy-results
-          path: trivy-results.json
-
-      - name: Run CTEM memory tracker
+      - name: Run memory_tracker.py
         run: python scripts/memory_tracker.py
-
-      - name: Upload SQLite DB
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ctem-memory
-          path: memory/memory.db
