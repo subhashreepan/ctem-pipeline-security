@@ -54,3 +54,19 @@ jobs:
 
       - name: Run memory_tracker.py
         run: python scripts/memory_tracker.py
+
+      - name: Run compare.py to update exposure.db
+        run: python scripts/compare.py
+
+      - name: Run alert.py to check repeated vulnerabilities
+        run: python scripts/alert.py
+
+      - name: Upload artifacts (scan results, database, dashboard)
+        uses: actions/upload-artifact@v3
+        with:
+          name: ctem-scan-artifacts
+          path: |
+            trivy-results.json
+            results.sarif
+            memory/exposure.db
+            dashboard/data.json
