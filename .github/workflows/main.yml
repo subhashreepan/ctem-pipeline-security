@@ -28,20 +28,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Install GitLeaks
       - name: Install GitLeaks
         run: |
           curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
           chmod +x gitleaks
           sudo mv gitleaks /usr/local/bin/
 
-      # ✅ Run GitLeaks and generate SARIF report
       - name: Run GitLeaks scan
         run: |
           mkdir -p reports
           gitleaks detect --source . --report-format sarif --report-path reports/results.sarif || true
 
-      # ✅ Upload GitLeaks SARIF (optional if report exists)
       - name: Upload GitLeaks SARIF
         if: always()
         continue-on-error: true
@@ -49,7 +46,6 @@ jobs:
         with:
           sarif_file: reports/results.sarif
 
-      # ✅ Install Trivy
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -59,18 +55,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      # ✅ Run Trivy scan and save report
       - name: Run Trivy scan
         run: |
           mkdir -p reports
           trivy fs . --format json --output reports/trivy-results.json --exit-code 0
 
-      # ✅ Run memory tracker
       - name: Run memory tracker
         run: python scripts/memory_tracker.py
 
-      # ✅ Upload dashboard output
-      - name: Upload data.json
+      - name: Upload dashboard output
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-data
@@ -92,11 +85,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Copy dashboard to publish directory
+      - name: Prepare dashboard for GitHub Pages
         run: |
           mkdir -p public
-          cp dashboard/data.json public/
-          cp -r dashboard/templates/* public/
+          cp dashboard/data.json public/ || echo "No data.json to copy"
+          if [ -d dashboard/templates ]; then cp -r dashboard/templates/* public/; else echo "No templates to copy"; fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
