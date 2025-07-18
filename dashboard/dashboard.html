@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>CTEM Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta http-equiv="refresh" content="60"> <!-- Auto-refresh every 60 seconds -->
+</head>
+<body>
+    <h1>Vulnerabilities by Severity</h1>
+    <canvas id="severityChart" width="600" height="400"></canvas>
+
+    <script>
+        const severityData = JSON.parse('{{ data.get("severity_counts", {}) | tojson | safe }}');
+        const labels = Object.keys(severityData);
+        const counts = Object.values(severityData);
+
+        const ctx = document.getElementById('severityChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vulnerabilities by Severity',
+                    data: counts,
+                    backgroundColor: ['#d9534f', '#f0ad4e', '#f7e98b', '#5cb85c']
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+    <h2>Repeated Vulnerabilities Details</h2>
+    {% if data.get('repeated_vulnerabilities') %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>File Path</th>
+                <th>Severity</th>
+                <th>Repeat Count</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vuln in data.repeated_vulnerabilities %}
+            <tr>
+                <td>{{ vuln.vuln_id }}</td>
+                <td>{{ vuln.description }}</td>
+                <td>{{ vuln.file_path }}</td>
+                <td>{{ vuln.severity }}</td>
+                <td>{{ vuln.repeat_count }}</td>
+                <td>{{ vuln.first_seen }}</td>
+                <td>{{ vuln.last_seen }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No repeated vulnerabilities found.</p>
+    {% endif %}
+</body>
+</html>

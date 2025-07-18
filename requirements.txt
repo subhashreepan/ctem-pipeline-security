@@ -11,3 +11,4 @@ pathlib
 deepdiff
 tqdm
 requests
+GitPython
