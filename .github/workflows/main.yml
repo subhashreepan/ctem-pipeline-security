@@ -23,12 +23,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Install GitLeaks manually
+      # ✅ Install GitLeaks
       - name: Install GitLeaks
         run: |
           curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
@@ -38,13 +38,14 @@ jobs:
       # ✅ Run GitLeaks and generate SARIF
       - name: Run GitLeaks scan
         run: |
-          gitleaks detect --source . --report-format sarif --report-path results.sarif || true
+          mkdir -p reports
+          gitleaks detect --source . --report-format sarif --report-path reports/results.sarif || true
 
-      # ✅ Upload SARIF to GitHub Code Scanning Alerts
-      - name: Upload SARIF to GitHub Code Scanning
+      # ✅ Upload GitLeaks SARIF to GitHub Code Scanning
+      - name: Upload GitLeaks SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: reports/results.sarif
 
       # ✅ Install Trivy
       - name: Install Trivy
@@ -56,16 +57,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      # ✅ Run Trivy and save results to file
+      # ✅ Run Trivy and save results
       - name: Run Trivy scan
-        run: trivy fs . --format json --output trivy-results.json --exit-code 0
+        run: |
+          mkdir -p reports
+          trivy fs . --format json --output reports/trivy-results.json --exit-code 0
 
-      # ✅ Run memory_tracker.py
+      # ✅ Run memory tracker
       - name: Run memory tracker
         run: python scripts/memory_tracker.py
 
-      # ✅ Upload dashboard JSON output (for CI preview / download)
-      - name: Upload data.json for dashboard
+      # ✅ Upload dashboard output for inspection
+      - name: Upload data.json
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-data
@@ -87,7 +90,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Copy dashboard to deployment folder
+      - name: Copy dashboard to publish directory
         run: |
           mkdir -p public
           cp dashboard/data.json public/
