@@ -1,27 +1,19 @@
+from flask import Flask, render_template, jsonify
+import json
 import os
-from git import Repo
 
-SCAN_RESULTS_BRANCH = "scan-results"
-REPO_DIR = os.path.abspath(os.path.dirname(__file__))
+app = Flask(__name__)
 
-def pull_latest_scan_results():
-    repo = Repo(REPO_DIR)
-    origin = repo.remotes.origin
+@app.route('/')
+def dashboard():
+    json_path = os.path.join(os.path.dirname(__file__), '../dashboard/data.json')
+    try:
+        with open(json_path, 'r') as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
 
-    # Fetch all branches
-    origin.fetch()
+    return render_template('dashboard.html', data=data)
 
-    # Checkout the scan-results branch locally (create if not exists)
-    if SCAN_RESULTS_BRANCH in repo.heads:
-        repo.heads[SCAN_RESULTS_BRANCH].checkout()
-    else:
-        repo.create_head(SCAN_RESULTS_BRANCH, origin.refs[SCAN_RESULTS_BRANCH])
-        repo.heads[SCAN_RESULTS_BRANCH].checkout()
-
-    # Pull latest changes
-    origin.pull(SCAN_RESULTS_BRANCH)
-
-    print(f"Pulled latest scan results from {SCAN_RESULTS_BRANCH} branch")
-
-# Call this on app startup or on dashboard route
-pull_latest_scan_results()
+if __name__ == '__main__':
+    app.run(debug=True)
