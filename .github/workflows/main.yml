@@ -95,7 +95,7 @@ jobs:
         run: |
           mkdir -p public
           cp dashboard/data.json public/
-          cp -r dashboard/templates/* public/
+          cp dashboard/index.html public/
 
       # ✅ Configure Git before deploying
       - name: Configure Git
