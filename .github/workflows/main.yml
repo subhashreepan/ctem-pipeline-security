@@ -28,24 +28,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # ✅ Install GitLeaks
       - name: Install GitLeaks
         run: |
           curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
           chmod +x gitleaks
           sudo mv gitleaks /usr/local/bin/
 
+      # ✅ Run GitLeaks and generate SARIF report
       - name: Run GitLeaks scan
         run: |
           mkdir -p reports
           gitleaks detect --source . --report-format sarif --report-path reports/results.sarif || true
 
-      - name: Upload GitLeaks SARIF
-        if: always()
-        continue-on-error: true
+      # ✅ Upload GitLeaks SARIF if exists
+      - name: Upload GitLeaks SARIF (if exists)
+        if: ${{ always() && hashFiles('reports/results.sarif') != '' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: reports/results.sarif
 
+      # ✅ Install Trivy
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -55,15 +58,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
+      # ✅ Run Trivy scan and save report
       - name: Run Trivy scan
         run: |
           mkdir -p reports
           trivy fs . --format json --output reports/trivy-results.json --exit-code 0
 
+      # ✅ Run memory tracker
       - name: Run memory tracker
         run: python scripts/memory_tracker.py
 
-      - name: Upload dashboard output
+      # ✅ Upload dashboard output
+      - name: Upload data.json
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-data
@@ -85,11 +91,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Prepare dashboard for GitHub Pages
+      - name: Copy dashboard to publish directory
         run: |
           mkdir -p public
-          cp dashboard/data.json public/ || echo "No data.json to copy"
-          if [ -d dashboard/templates ]; then cp -r dashboard/templates/* public/; else echo "No templates to copy"; fi
+          cp dashboard/data.json public/
+          cp -r dashboard/templates/* public/
+
+      # ✅ Configure Git before deploying
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
