@@ -66,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-data
-          path: dashboard/data.json
+          path: data.json
 
   deploy-dashboard:
     needs: ctem-scan
@@ -87,8 +87,8 @@ jobs:
       - name: Copy dashboard to publish directory
         run: |
           mkdir -p public
-          cp dashboard/data.json public/
-          cp dashboard/index.html public/
+          cp data.json public/
+          cp index.html public/
 
       - name: Configure Git
         run: |
@@ -100,4 +100,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-#publish
