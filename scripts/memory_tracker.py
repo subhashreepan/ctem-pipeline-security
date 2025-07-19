@@ -87,7 +87,7 @@ summary_data = {
 }
 
 # Write to dashboard/data.json
-with open(DATA_OUTPUT_PATH, "w") as out:
-    json.dump(summary_data, out, indent=4)
+with open("dashboard/data.json", "w") as f:
+    json.dump(summary_data, f, indent=2)
 
 print(f"Memory updated and data.json written to {DATA_OUTPUT_PATH}")
