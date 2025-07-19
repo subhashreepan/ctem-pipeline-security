@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CTEM Vulnerability Trends</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2>Vulnerability Trends Over Time</h2>
+<canvas id="vulnChart" width="800" height="400"></canvas>
+
+<script>
+fetch('data.json')
+  .then(response => response.json())
+  .then(data => {
+    const ctx = document.getElementById('vulnChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.dates,
+        datasets: [
+          {
+            label: 'New Vulnerabilities',
+            data: data.new_findings,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+          },
+          {
+            label: 'Repeated Vulnerabilities',
+            data: data.repeated_findings,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0 }
+          }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
