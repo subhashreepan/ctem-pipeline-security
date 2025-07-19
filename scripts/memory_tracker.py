@@ -7,7 +7,7 @@ from datetime import datetime
 os.makedirs("memory", exist_ok=True)
 os.makedirs("dashboard", exist_ok=True)
 
-TRIVY_RESULTS_PATH = "reports/trivy-results.json"
+TRIVY_RESULTS_PATH = "trivy-results.json"  # Fix: correct path as per GitHub Action output
 DATA_OUTPUT_PATH = "dashboard/data.json"
 
 # Load new scan results from Trivy
@@ -15,8 +15,7 @@ if not os.path.exists(TRIVY_RESULTS_PATH):
     print(f"⚠️ {TRIVY_RESULTS_PATH} not found.")
     exit(1)
 
-with open("trivy-results.json", "r") as f:
-
+with open(TRIVY_RESULTS_PATH, "r") as f:
     new_data = json.load(f)
 
 # Connect to SQLite
@@ -88,7 +87,7 @@ summary_data = {
 }
 
 # Write to dashboard/data.json
-with open("dashboard/data.json", "w") as f:
+with open(DATA_OUTPUT_PATH, "w") as f:
     json.dump(summary_data, f, indent=2)
 
 print(f"Memory updated and data.json written to {DATA_OUTPUT_PATH}")
