@@ -66,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-data
-          path: data.json
+          path: dashboard/data.json   # ✅ <-- Make sure data.json exists here
 
   deploy-dashboard:
     needs: ctem-scan
@@ -88,7 +88,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dashboard-data
-          path: .
+          path: public   # ⬅️ This folder will hold index.html and data.json
+
+      - name: Copy index.html to public
+        run: |
+          mkdir -p public
+          cp dashboard/index.html public/
 
       - name: Configure Git
         run: |
@@ -99,4 +104,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: public   # ✅ Now deploy from public/
