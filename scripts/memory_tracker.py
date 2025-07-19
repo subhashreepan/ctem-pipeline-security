@@ -15,7 +15,8 @@ if not os.path.exists(TRIVY_RESULTS_PATH):
     print(f"⚠️ {TRIVY_RESULTS_PATH} not found.")
     exit(1)
 
-with open(TRIVY_RESULTS_PATH, "r") as f:
+with open("trivy-results.json", "r") as f:
+
     new_data = json.load(f)
 
 # Connect to SQLite
