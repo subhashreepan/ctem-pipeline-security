@@ -1,58 +1,78 @@
 import json
-import os
 from datetime import datetime
+import os
 
-TRIVY_REPORT_PATH = "reports/trivy-results.json"
-MEMORY_PATH = "memory.json"
-DATA_PATH = "data.json"
+TRIVY_RESULTS = "trivy-results.json"
+MEMORY_FILE = "memory.json"
+OUTPUT_FILE = "dashboard/data.json"
 
-def load_json(path):
-    if os.path.exists(path):
-        with open(path, "r") as f:
+def load_trivy_data():
+    with open(TRIVY_RESULTS, 'r') as f:
+        return json.load(f)
+
+def load_memory():
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE, 'r') as f:
             return json.load(f)
     return {}
 
-def save_json(path, data):
-    with open(path, "w") as f:
+def save_memory(memory):
+    with open(MEMORY_FILE, 'w') as f:
+        json.dump(memory, f, indent=2)
+
+def save_dashboard(data):
+    with open(OUTPUT_FILE, 'w') as f:
         json.dump(data, f, indent=2)
 
-def extract_secrets(trivy_data):
-    secrets = []
-    results = trivy_data.get("Results", [])
-    for result in results:
-        if result.get("Class") == "secret":
-            for secret in result.get("Secrets", []):
-                secrets.append({
-                    "file": result.get("Target", ""),
-                    "rule": secret.get("RuleID", ""),
-                    "severity": secret.get("Severity", ""),
-                    "title": secret.get("Title", ""),
-                    "line": secret.get("StartLine", ""),
-                    "match": secret.get("Match", ""),
-                    "timestamp": datetime.now().isoformat()
-                })
-    return secrets
+def normalize_entry(entry):
+    return f"{entry['Target']}::{entry.get('RuleID') or entry.get('VulnerabilityID')}"
 
 def main():
-    trivy_report = load_json(TRIVY_REPORT_PATH)
-    memory = load_json(MEMORY_PATH)
-    current_secrets = extract_secrets(trivy_report)
+    trivy = load_trivy_data()
+    memory = load_memory()
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Count repeat occurrences
-    history_keys = set((v["file"], v["rule"]) for v in memory.get("secrets", []))
-    repeated = [
-        s for s in current_secrets if (s["file"], s["rule"]) in history_keys
-    ]
+    current_findings = {}
+    dashboard_rows = []
 
-    memory.setdefault("secrets", []).extend(current_secrets)
-    save_json(MEMORY_PATH, memory)
+    for result in trivy.get("Results", []):
+        target = result.get("Target")
+        secrets = result.get("Secrets", [])
 
-    dashboard_data = {
-        "timestamp": datetime.now().isoformat(),
-        "new_vulnerabilities": current_secrets,
-        "repeated_vulnerabilities": repeated
-    }
-    save_json(DATA_PATH, dashboard_data)
+        for secret in secrets:
+            rule_id = secret.get("RuleID")
+            severity = secret.get("Severity", "UNKNOWN")
+            title = secret.get("Title", "")
+            unique_id = f"{target}::{rule_id}"
+
+            current_findings[unique_id] = {
+                "timestamp": timestamp,
+                "severity": severity,
+                "rule": rule_id,
+                "target": target,
+                "title": title
+            }
+
+            # Count occurrences
+            memory.setdefault(unique_id, {"count": 0, "history": []})
+            memory[unique_id]["count"] += 1
+            memory[unique_id]["history"].append(timestamp)
+
+    # Prepare dashboard data
+    for vuln_id, data in memory.items():
+        dashboard_rows.append({
+            "id": vuln_id,
+            "severity": current_findings.get(vuln_id, {}).get("severity", "UNKNOWN"),
+            "title": current_findings.get(vuln_id, {}).get("title", ""),
+            "target": current_findings.get(vuln_id, {}).get("target", ""),
+            "rule": current_findings.get(vuln_id, {}).get("rule", ""),
+            "occurrences": data["count"],
+            "last_seen": data["history"][-1] if data["history"] else "N/A"
+        })
+
+    save_memory(memory)
+    save_dashboard({"vulnerabilities": dashboard_rows})
+    print(f"[+] Dashboard data written to {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
