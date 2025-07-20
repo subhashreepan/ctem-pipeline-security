@@ -1,5 +1,9 @@
-{
-  "timestamp": "2025-07-20T18:43:19.138816",
-  "new_vulnerabilities": [],
-  "repeated_vulnerabilities": []
-}
+[
+  {
+    "timestamp": "2025-07-20T22:33:19.423187",
+    "count": 1,
+    "file": "app/config/secret_config.py",
+    "type": "Stripe",
+    "contributor": "SimulatedUser"
+  }
+]
