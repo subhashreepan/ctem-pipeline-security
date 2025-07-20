@@ -68,18 +68,13 @@ def main():
     repeated_dict, updated_memory = extract_repeated_secrets(trivy_data, memory_db)
     dashboard_data = build_dashboard_data(repeated_dict)
 
-    # Append to existing data.json entries (time series)
-    existing_data = load_json(OUTPUT_DATA_PATH)
-    if isinstance(existing_data, dict):  # Backward compatibility fix
-        existing_data = []
+    # ✅ Output only current repeated vulnerabilities list
+    with open(OUTPUT_DATA_PATH, "w") as outf:
+        json.dump(dashboard_data, outf, indent=2)
 
-    all_data = existing_data + dashboard_data
-
+    # ✅ Save updated memory
     with open(MEMORY_DB_PATH, "w") as memf:
         json.dump(updated_memory, memf, indent=2)
-
-    with open(OUTPUT_DATA_PATH, "w") as outf:
-        json.dump(all_data, outf, indent=2)
 
 if __name__ == "__main__":
     main()
