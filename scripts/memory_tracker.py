@@ -1,76 +1,77 @@
 import json
-from datetime import datetime
 import os
+from datetime import datetime
+from collections import defaultdict
 
-TRIVY_RESULTS = "trivy-results.json"
-MEMORY_FILE = "memory.json"
-OUTPUT_DIR = "dashboard"
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "data.json")
+TRIVY_RESULTS_PATH = "trivyresult.json"
+MEMORY_DB_PATH = "memory_db.json"
+OUTPUT_DATA_PATH = "data.json"
 
-def load_trivy_data():
-    with open(TRIVY_RESULTS, 'r') as f:
-        return json.load(f)
-
-def load_memory():
-    if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE, 'r') as f:
+def load_json(path):
+    if os.path.exists(path):
+        with open(path, "r") as f:
             return json.load(f)
-    return {}
+    return []
 
-def save_memory(memory):
-    with open(MEMORY_FILE, 'w') as f:
-        json.dump(memory, f, indent=2)
+def extract_repeated_secrets(trivy_data, memory_db):
+    repeated = defaultdict(lambda: {"count": 0, "file": "", "type": "", "contributors": set()})
 
-def save_dashboard(data):
-    # Ensure the 'dashboard' directory exists
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    with open(OUTPUT_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
+    for result in trivy_data.get("Results", []):
+        if result.get("Class") != "secret":
+            continue
+
+        for secret in result.get("Secrets", []):
+            fingerprint = f"{secret['RuleID']}_{result['Target']}"
+            contributor = "SimulatedUser"  # Replace with git blame or GitHub API if needed
+
+            if fingerprint in memory_db:
+                repeated[fingerprint]["count"] += 1
+                repeated[fingerprint]["file"] = result["Target"]
+                repeated[fingerprint]["type"] = secret["Category"]
+                repeated[fingerprint]["contributors"].add(contributor)
+            else:
+                # First-time discovery - store in memory
+                memory_db[fingerprint] = {
+                    "first_seen": datetime.utcnow().isoformat()
+                }
+
+    return repeated, memory_db
+
+def build_dashboard_data(repeated_dict):
+    timestamp = datetime.utcnow().isoformat()
+    dashboard_entries = []
+
+    for fingerprint, details in repeated_dict.items():
+        entry = {
+            "timestamp": timestamp,
+            "count": details["count"],
+            "file": details["file"],
+            "type": details["type"],
+            "contributor": ", ".join(details["contributors"])
+        }
+        dashboard_entries.append(entry)
+
+    return dashboard_entries
 
 def main():
-    trivy = load_trivy_data()
-    memory = load_memory()
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    trivy_data = load_json(TRIVY_RESULTS_PATH)
+    memory_db = load_json(MEMORY_DB_PATH)
 
-    current_findings = {}
-    dashboard_rows = []
+    repeated_dict, updated_memory = extract_repeated_secrets(trivy_data, memory_db)
+    dashboard_data = build_dashboard_data(repeated_dict)
 
-    for result in trivy.get("Results", []):
-        target = result.get("Target")
-        secrets = result.get("Secrets", [])
+    # Append to existing data.json entries (time series)
+    existing_data = load_json(OUTPUT_DATA_PATH)
+    if isinstance(existing_data, dict):  # Backward compatibility fix
+        existing_data = []
 
-        for secret in secrets:
-            rule_id = secret.get("RuleID")
-            severity = secret.get("Severity", "UNKNOWN")
-            title = secret.get("Title", "")
-            unique_id = f"{target}::{rule_id}"
+    all_data = existing_data + dashboard_data
 
-            current_findings[unique_id] = {
-                "timestamp": timestamp,
-                "severity": severity,
-                "rule": rule_id,
-                "target": target,
-                "title": title
-            }
+    with open(MEMORY_DB_PATH, "w") as memf:
+        json.dump(updated_memory, memf, indent=2)
 
-            memory.setdefault(unique_id, {"count": 0, "history": []})
-            memory[unique_id]["count"] += 1
-            memory[unique_id]["history"].append(timestamp)
-
-    for vuln_id, data in memory.items():
-        dashboard_rows.append({
-            "id": vuln_id,
-            "severity": current_findings.get(vuln_id, {}).get("severity", "UNKNOWN"),
-            "title": current_findings.get(vuln_id, {}).get("title", ""),
-            "target": current_findings.get(vuln_id, {}).get("target", ""),
-            "rule": current_findings.get(vuln_id, {}).get("rule", ""),
-            "occurrences": data["count"],
-            "last_seen": data["history"][-1] if data["history"] else "N/A"
-        })
-
-    save_memory(memory)
-    save_dashboard({"vulnerabilities": dashboard_rows})
-    print(f"[+] Dashboard data written to {OUTPUT_FILE}")
+    with open(OUTPUT_DATA_PATH, "w") as outf:
+        json.dump(all_data, outf, indent=2)
 
 if __name__ == "__main__":
     main()
