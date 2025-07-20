@@ -4,7 +4,8 @@ import os
 
 TRIVY_RESULTS = "trivy-results.json"
 MEMORY_FILE = "memory.json"
-OUTPUT_FILE = "dashboard/data.json"
+OUTPUT_DIR = "dashboard"
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "data.json")
 
 def load_trivy_data():
     with open(TRIVY_RESULTS, 'r') as f:
@@ -21,11 +22,10 @@ def save_memory(memory):
         json.dump(memory, f, indent=2)
 
 def save_dashboard(data):
+    # Ensure the 'dashboard' directory exists
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_FILE, 'w') as f:
         json.dump(data, f, indent=2)
-
-def normalize_entry(entry):
-    return f"{entry['Target']}::{entry.get('RuleID') or entry.get('VulnerabilityID')}"
 
 def main():
     trivy = load_trivy_data()
@@ -53,12 +53,10 @@ def main():
                 "title": title
             }
 
-            # Count occurrences
             memory.setdefault(unique_id, {"count": 0, "history": []})
             memory[unique_id]["count"] += 1
             memory[unique_id]["history"].append(timestamp)
 
-    # Prepare dashboard data
     for vuln_id, data in memory.items():
         dashboard_rows.append({
             "id": vuln_id,
