@@ -11,12 +11,20 @@ def load_json(path):
     if os.path.exists(path):
         with open(path, "r") as f:
             return json.load(f)
-    return []
+    return []  # default empty list
 
 def extract_repeated_secrets(trivy_data, memory_db):
     repeated = defaultdict(lambda: {"count": 0, "file": "", "type": "", "contributors": set()})
 
-    for result in trivy_data.get("Results", []):
+    # Check if trivy_data is a list or dict
+    if isinstance(trivy_data, dict):
+        results = trivy_data.get("Results", [])
+    elif isinstance(trivy_data, list):
+        results = trivy_data
+    else:
+        results = []
+
+    for result in results:
         if result.get("Class") != "secret":
             continue
 
