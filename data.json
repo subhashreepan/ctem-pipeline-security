@@ -1,9 +1,30 @@
-[
-  {
-    "timestamp": "2025-07-20T22:33:19.423187",
-    "count": 1,
-    "file": "app/config/secret_config.py",
-    "type": "Stripe",
-    "contributor": "SimulatedUser"
+{
+  "entries": [
+    {
+      "timestamp": "2025-07-21T18:54:06.984530",
+      "count": 3,
+      "file": "app/config.py",
+      "type": "AWS",
+      "contributor": "SimulatedUser"
+    },
+    {
+      "timestamp": "2025-07-21T18:54:06.984530",
+      "count": 2,
+      "file": "app/config.py",
+      "type": "Database",
+      "contributor": "SimulatedUser"
+    },
+    {
+      "timestamp": "2025-07-21T18:54:06.984530",
+      "count": 1,
+      "file": "app/config.py",
+      "type": "Messaging",
+      "contributor": "SimulatedUser"
+    }
+  ],
+  "alert": {
+    "active": true,
+    "count": 3,
+    "threshold": 1
   }
-]
+}
