@@ -76,7 +76,7 @@ def main():
     repeated_dict, updated_memory = extract_repeated_secrets(trivy_data, memory_db)
     dashboard_data = build_dashboard_data(repeated_dict)
 
-    # 🔴 Add alert metadata
+    #alert metadata
     REPEAT_THRESHOLD = 1
     repeats_to_alert = {k: v for k, v in repeated_dict.items() if v["count"] >= REPEAT_THRESHOLD}
 
