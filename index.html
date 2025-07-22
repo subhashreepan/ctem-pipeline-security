@@ -5,21 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CTEM Repeated Vulnerabilities Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body { background-color: #121212; color: #fff; }
     h2, h5 { margin-top: 20px; }
     table th, table td { color: #fff; }
+    canvas { background-color: #1e1e1e; border-radius: 10px; padding: 10px; }
+    .search-box { margin: 15px 0; }
+    .btn-light { background-color: #fff; color: #000; }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Continuous Threat Exposure Management (CTEM) — Recurrent Vulnerability Analysis</h2>
 
-    <!-- 🚨 ALERT BOX -->
+    <!-- ALERT BOX -->
     <div id="alertBox" class="alert alert-danger mt-4 d-none" role="alert">
-      🚨 <strong>Security Alert:</strong> Repeated vulnerabilities detected!
+      <strong>Security Alert:</strong> Repeated vulnerabilities detected!
     </div>
 
+    <!-- Chart -->
+    <h5>Vulnerability Trends Over Time</h5>
+    <canvas id="vulnChart" width="600" height="200"></canvas>
+
+    <!-- Search & Export -->
+    <div class="d-flex justify-content-between align-items-center search-box">
+      <input type="text" id="searchInput" class="form-control me-2" placeholder="Search table...">
+      <button class="btn btn-light" onclick="downloadCSV()">Export CSV</button>
+    </div>
+
+    <!-- Table -->
     <h5>Detected Repeated Vulnerabilities</h5>
     <table class="table table-dark table-striped" id="vuln-table">
       <thead>
@@ -32,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Data rows go here -->
+        <!-- Data rows -->
       </tbody>
     </table>
   </div>
@@ -43,32 +58,98 @@
         const response = await fetch('data.json');
         const data = await response.json();
 
-        // ✅ Show alert if needed
+        // Alert box
         if (data.alert && data.alert.active) {
           const alertBox = document.getElementById("alertBox");
           alertBox.classList.remove("d-none");
-          alertBox.innerHTML = `🚨 <strong>Security Alert:</strong> ${data.alert.count} repeated vulnerabilities detected!`;
+          alertBox.innerHTML = `<strong>Security Alert:</strong> ${data.alert.count} repeated vulnerabilities detected!`;
         }
 
         const entries = data.entries || [];
         const tbody = document.querySelector('#vuln-table tbody');
         tbody.innerHTML = '';
 
+        const timestamps = [];
+        const counts = [];
+
         entries.forEach(entry => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${entry.contributor || 'N/A'}</td>
-            <td>${entry.timestamp || 'N/A'}</td>
-            <td>${entry.file || 'N/A'}</td>
-            <td>${entry.type || 'N/A'}</td>
-            <td>${entry.count || 0}</td>
+            <td title="${entry.contributor || ''}">${entry.contributor || 'N/A'}</td>
+            <td title="${entry.timestamp || ''}">${entry.timestamp || 'N/A'}</td>
+            <td title="${entry.file || ''}">${entry.file || 'N/A'}</td>
+            <td title="${entry.type || ''}">${entry.type || 'N/A'}</td>
+            <td title="${entry.count || 0}">${entry.count || 0}</td>
           `;
           tbody.appendChild(row);
+
+          // Line chart data
+          if (entry.timestamp && entry.count !== undefined) {
+            timestamps.push(entry.timestamp);
+            counts.push(entry.count);
+          }
+        });
+
+        // Initialize chart
+        const ctx = document.getElementById('vulnChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: timestamps,
+            datasets: [{
+              label: 'Repeated Vulnerabilities',
+              data: counts,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderWidth: 2,
+              tension: 0.3,
+              fill: true,
+              pointBackgroundColor: '#fff'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { color: 'white' } },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              x: { ticks: { color: 'white' }, title: { display: true, text: 'Timestamp', color: 'white' } },
+              y: { ticks: { color: 'white' }, title: { display: true, text: 'Count', color: 'white' } }
+            }
+          }
+        });
+
+        //table search
+        document.getElementById("searchInput").addEventListener("input", function () {
+          const term = this.value.toLowerCase();
+          const rows = document.querySelectorAll("#vuln-table tbody tr");
+          rows.forEach(row => {
+            row.style.display = Array.from(row.cells).some(cell =>
+              cell.textContent.toLowerCase().includes(term)
+            ) ? '' : 'none';
+          });
         });
 
       } catch (err) {
         console.error("Failed to load or parse data.json:", err);
       }
+    }
+
+    function downloadCSV() {
+      const rows = Array.from(document.querySelectorAll("#vuln-table tr"));
+      const csv = rows.map(row => 
+        Array.from(row.querySelectorAll("th, td"))
+             .map(cell => `"${cell.textContent}"`).join(',')
+      ).join('\n');
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "vulnerabilities.csv";
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     window.addEventListener('DOMContentLoaded', loadData);
