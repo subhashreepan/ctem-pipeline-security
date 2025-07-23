@@ -1,23 +1,474 @@
-[
-  {
-    "Target": "app/config.py",
-    "Class": "secret",
-    "Secrets": [
-      {
-        "RuleID": "aws-access-key",     
-        "Category": "AWS",
-        "Severity": "HIGH"
-      },
-      {
-        "RuleID": "db-password",       
-        "Category": "Database",
-        "Severity": "CRITICAL"
-      },
-      {
-        "RuleID": "slack-token",     
-        "Category": "Messaging",
-        "Severity": "MEDIUM"
-      }
-    ]
-  }
-]
+{
+  "Results": [
+    {
+      "Target": "init/setup_env.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 49,
+          "EndLine": 143,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "SECRET_API_KEY Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-13T18:25:08.999266"
+    },
+    {
+      "Target": "src/utils/secrets.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "CRITICAL",
+          "StartLine": 81,
+          "EndLine": 133,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 43,
+          "EndLine": 185,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 13,
+          "EndLine": 104,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "PASSWORD_STRING Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-14T22:08:43.999340"
+    },
+    {
+      "Target": "src/db/db_config.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 75,
+          "EndLine": 114,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        },
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 80,
+          "EndLine": 148,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        },
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 46,
+          "EndLine": 177,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-19T02:19:22.999365"
+    },
+    {
+      "Target": "src/utils/secrets.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 20,
+          "EndLine": 178,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 37,
+          "EndLine": 194,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "PASSWORD_STRING Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-16T01:38:03.999383"
+    },
+    {
+      "Target": "init/setup_env.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 45,
+          "EndLine": 176,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "SECRET_API_KEY Exposure"
+        },
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 77,
+          "EndLine": 161,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "SECRET_API_KEY Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-20T08:35:00.999402"
+    },
+    {
+      "Target": "src/utils/secrets.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 14,
+          "EndLine": 137,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-12T22:35:07.999418"
+    },
+    {
+      "Target": "init/setup_env.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 40,
+          "EndLine": 174,
+          "Match": "some_secret_value_here",
+          "Contributor": "bob",
+          "Title": "SECRET_API_KEY Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-20T08:26:35.999433"
+    },
+    {
+      "Target": "src/app/auth.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 2,
+          "EndLine": 123,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 87,
+          "EndLine": 136,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-16T16:33:23.999456"
+    },
+    {
+      "Target": "init/setup_env.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 58,
+          "EndLine": 169,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 73,
+          "EndLine": 196,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "CRITICAL",
+          "StartLine": 70,
+          "EndLine": 135,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-13T03:38:39.999477"
+    },
+    {
+      "Target": "src/app/auth.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 62,
+          "EndLine": 122,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 15,
+          "EndLine": 179,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "CRITICAL",
+          "StartLine": 86,
+          "EndLine": 137,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "HARDCODED_TOKEN Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-17T12:27:22.999500"
+    },
+    {
+      "Target": "src/db/db_config.py",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "MEDIUM",
+          "StartLine": 80,
+          "EndLine": 153,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 77,
+          "EndLine": 189,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 25,
+          "EndLine": 165,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "PASSWORD_STRING Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-18T16:33:19.999517"
+    },
+    {
+      "Target": "scripts/deploy.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "ENV_SECRET",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 33,
+          "EndLine": 152,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "ENV_SECRET Exposure"
+        },
+        {
+          "RuleID": "ENV_SECRET",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 92,
+          "EndLine": 169,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "ENV_SECRET Exposure"
+        },
+        {
+          "RuleID": "ENV_SECRET",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 70,
+          "EndLine": 156,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "ENV_SECRET Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-14T05:24:27.999536"
+    },
+    {
+      "Target": "README.md",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "CRITICAL",
+          "StartLine": 45,
+          "EndLine": 198,
+          "Match": "some_secret_value_here",
+          "Contributor": "bob",
+          "Title": "PASSWORD_STRING Exposure"
+        },
+        {
+          "RuleID": "PASSWORD_STRING",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 34,
+          "EndLine": 165,
+          "Match": "some_secret_value_here",
+          "Contributor": "bob",
+          "Title": "PASSWORD_STRING Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-18T04:19:18.999548"
+    },
+    {
+      "Target": "scripts/deploy.sh",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 61,
+          "EndLine": 113,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 5,
+          "EndLine": 112,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        },
+        {
+          "RuleID": "HARDCODED_TOKEN",
+          "Category": "Hardcoded Secret",
+          "Severity": "HIGH",
+          "StartLine": 71,
+          "EndLine": 154,
+          "Match": "some_secret_value_here",
+          "Contributor": "diana",
+          "Title": "HARDCODED_TOKEN Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-14T20:20:07.999563"
+    },
+    {
+      "Target": "config/api_keys.json",
+      "Class": "secret",
+      "Type": "github",
+      "Secrets": [
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 11,
+          "EndLine": 153,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        },
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "CRITICAL",
+          "StartLine": 29,
+          "EndLine": 199,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        },
+        {
+          "RuleID": "SECRET_API_KEY",
+          "Category": "Hardcoded Secret",
+          "Severity": "LOW",
+          "StartLine": 46,
+          "EndLine": 144,
+          "Match": "some_secret_value_here",
+          "Contributor": "alice",
+          "Title": "SECRET_API_KEY Exposure"
+        }
+      ],
+      "Timestamp": "2025-07-17T02:00:31.999578"
+    }
+  ]
+}

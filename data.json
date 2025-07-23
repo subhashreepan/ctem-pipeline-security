@@ -1,30 +1,97 @@
 {
   "entries": [
     {
-      "timestamp": "2025-07-21T18:54:06.984530",
-      "count": 3,
-      "file": "app/config.py",
-      "type": "AWS",
-      "contributor": "SimulatedUser"
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 10,
+      "file": "init/setup_env.sh",
+      "type": "SECRET_API_KEY",
+      "contributor": "diana, bob",
+      "severity": "LOW"
     },
     {
-      "timestamp": "2025-07-21T18:54:06.984530",
-      "count": 2,
-      "file": "app/config.py",
-      "type": "Database",
-      "contributor": "SimulatedUser"
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 5,
+      "file": "src/utils/secrets.py",
+      "type": "PASSWORD_STRING",
+      "contributor": "alice",
+      "severity": "MEDIUM"
     },
     {
-      "timestamp": "2025-07-21T18:54:06.984530",
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 4,
+      "file": "src/db/db_config.py",
+      "type": "SECRET_API_KEY",
+      "contributor": "alice",
+      "severity": "HIGH"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
       "count": 1,
-      "file": "app/config.py",
-      "type": "Messaging",
-      "contributor": "SimulatedUser"
+      "file": "src/utils/secrets.py",
+      "type": "HARDCODED_TOKEN",
+      "contributor": "alice",
+      "severity": "LOW"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 5,
+      "file": "src/app/auth.py",
+      "type": "HARDCODED_TOKEN",
+      "contributor": "alice",
+      "severity": "CRITICAL"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 3,
+      "file": "init/setup_env.sh",
+      "type": "HARDCODED_TOKEN",
+      "contributor": "diana",
+      "severity": "CRITICAL"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 3,
+      "file": "src/db/db_config.py",
+      "type": "PASSWORD_STRING",
+      "contributor": "diana",
+      "severity": "HIGH"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 6,
+      "file": "scripts/deploy.sh",
+      "type": "ENV_SECRET",
+      "contributor": "alice",
+      "severity": "HIGH"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 4,
+      "file": "README.md",
+      "type": "PASSWORD_STRING",
+      "contributor": "bob",
+      "severity": "LOW"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 3,
+      "file": "scripts/deploy.sh",
+      "type": "HARDCODED_TOKEN",
+      "contributor": "diana",
+      "severity": "HIGH"
+    },
+    {
+      "timestamp": "2025-07-23T20:57:40.113719",
+      "count": 3,
+      "file": "config/api_keys.json",
+      "type": "SECRET_API_KEY",
+      "contributor": "alice",
+      "severity": "LOW"
     }
   ],
   "alert": {
     "active": true,
-    "count": 3,
-    "threshold": 1
+    "count": 10,
+    "threshold": 2
   }
 }

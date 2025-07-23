@@ -19,22 +19,21 @@
   <div class="container">
     <h2>Continuous Threat Exposure Management (CTEM) — Recurrent Vulnerability Analysis</h2>
 
-    <!-- ALERT BOX -->
     <div id="alertBox" class="alert alert-danger mt-4 d-none" role="alert">
       <strong>Security Alert:</strong> Repeated vulnerabilities detected!
     </div>
 
-    <!-- Chart -->
     <h5>Vulnerability Trends Over Time</h5>
     <canvas id="vulnChart" width="600" height="200"></canvas>
 
-    <!-- Search & Export -->
+    <h5>Contributor Behavior - Vulnerability Counts</h5>
+    <canvas id="contributorChart" width="600" height="200"></canvas>
+
     <div class="d-flex justify-content-between align-items-center search-box">
-      <input type="text" id="searchInput" class="form-control me-2" placeholder="Search table...">
+      <input type="text" id="searchInput" class="form-control me-2" placeholder="Search table..." />
       <button class="btn btn-light" onclick="downloadCSV()">Export CSV</button>
     </div>
 
-    <!-- Table -->
     <h5>Detected Repeated Vulnerabilities</h5>
     <table class="table table-dark table-striped" id="vuln-table">
       <thead>
@@ -43,62 +42,123 @@
           <th>Timestamp</th>
           <th>File</th>
           <th>Type</th>
+          <th>Severity</th>
           <th>Count</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Data rows -->
       </tbody>
     </table>
   </div>
 
   <script>
+    let vulnChart = null;
+    let contributorChart = null;
+
+    function fmtTimestamp(ts) {
+      if (!ts) return "N/A";
+      const [datePart, timePart] = ts.split("T");
+      if (!timePart) return ts;
+      const cleanTime = timePart.split(/[Z+-]/)[0];
+      const parts = cleanTime.split(":");
+      if (parts.length < 2) return ts;
+      const hh = parts[0].padStart(2,"0");
+      const mm = parts[1].padStart(2,"0");
+      let sec = parts[2] ? parts[2].split(".")[0] : "00";
+      sec = sec.padStart(2,"0");
+      return `${datePart}T${hh}:${mm}:${sec}`;
+    }
+
     async function loadData() {
       try {
         const response = await fetch('data.json');
         const data = await response.json();
 
-        // Alert box
+        const alertBox = document.getElementById("alertBox");
         if (data.alert && data.alert.active) {
-          const alertBox = document.getElementById("alertBox");
           alertBox.classList.remove("d-none");
           alertBox.innerHTML = `<strong>Security Alert:</strong> ${data.alert.count} repeated vulnerabilities detected!`;
+        } else {
+          alertBox.classList.add("d-none");
         }
 
         const entries = data.entries || [];
         const tbody = document.querySelector('#vuln-table tbody');
         tbody.innerHTML = '';
 
-        const timestamps = [];
-        const counts = [];
-
         entries.forEach(entry => {
+          const displayTs = fmtTimestamp(entry.timestamp);
           const row = document.createElement('tr');
           row.innerHTML = `
             <td title="${entry.contributor || ''}">${entry.contributor || 'N/A'}</td>
-            <td title="${entry.timestamp || ''}">${entry.timestamp || 'N/A'}</td>
+            <td title="${entry.timestamp || ''}">${displayTs}</td>
             <td title="${entry.file || ''}">${entry.file || 'N/A'}</td>
             <td title="${entry.type || ''}">${entry.type || 'N/A'}</td>
+            <td title="${entry.severity || ''}">${entry.severity || 'N/A'}</td>
             <td title="${entry.count || 0}">${entry.count || 0}</td>
           `;
           tbody.appendChild(row);
+        });
 
-          // Line chart data
-          if (entry.timestamp && entry.count !== undefined) {
-            timestamps.push(entry.timestamp);
-            counts.push(entry.count);
+        // *** UPDATED: Make timestamps unique by adding seconds offset for same timestamps ***
+        const timestampOccurrences = {};
+        const countsByTimestamp = {};
+
+        entries.forEach(e => {
+          if (e.timestamp && e.count !== undefined) {
+            const baseTs = fmtTimestamp(e.timestamp);
+
+            // Track how many times this timestamp has occurred before
+            timestampOccurrences[baseTs] = (timestampOccurrences[baseTs] || 0) + 1;
+
+            // Parse date and add seconds offset to make unique labels
+            const dateObj = new Date(baseTs);
+            if (isNaN(dateObj)) {
+              // fallback if invalid date
+              countsByTimestamp[baseTs] = (countsByTimestamp[baseTs] || 0) + e.count;
+            } else {
+              // Add offset in seconds based on occurrence count (subtract 1 because first is 0 offset)
+              const offsetSeconds = timestampOccurrences[baseTs] - 1;
+              dateObj.setSeconds(dateObj.getSeconds() + offsetSeconds);
+
+              // Format back to ISO-ish string without timezone, just like fmtTimestamp output
+              const uniqueLabel = dateObj.toISOString().split('.')[0];
+
+              countsByTimestamp[uniqueLabel] = (countsByTimestamp[uniqueLabel] || 0) + e.count;
+            }
           }
         });
 
-        // Initialize chart
-        const ctx = document.getElementById('vulnChart').getContext('2d');
-        new Chart(ctx, {
+        // Sort timestamps ascending
+        const sortedLabels = Object.keys(countsByTimestamp).sort();
+        const countsArray = sortedLabels.map(label => countsByTimestamp[label]);
+
+        const countsByContributor = {};
+        entries.forEach(e => {
+          if (e.contributor && e.count !== undefined) {
+            countsByContributor[e.contributor] = (countsByContributor[e.contributor] || 0) + e.count;
+          }
+        });
+
+        const contributors = Object.keys(countsByContributor);
+        const contributorCounts = contributors.map(c => countsByContributor[c]);
+
+        const contributorColors = contributors.map((_, i) => {
+          const hue = (i * 360 / contributors.length) % 360;
+          return `hsl(${hue}, 70%, 80%)`;
+        });
+
+        if (vulnChart) vulnChart.destroy();
+        if (contributorChart) contributorChart.destroy();
+
+        const ctxLine = document.getElementById('vulnChart').getContext('2d');
+        vulnChart = new Chart(ctxLine, {
           type: 'line',
           data: {
-            labels: timestamps,
+            labels: sortedLabels,
             datasets: [{
               label: 'Repeated Vulnerabilities',
-              data: counts,
+              data: countsArray,
               borderColor: 'rgba(255, 99, 132, 1)',
               backgroundColor: 'rgba(255, 99, 132, 0.2)',
               borderWidth: 2,
@@ -114,13 +174,44 @@
               tooltip: { mode: 'index', intersect: false }
             },
             scales: {
-              x: { ticks: { color: 'white' }, title: { display: true, text: 'Timestamp', color: 'white' } },
+              x: {
+                ticks: { color: 'white', maxRotation: 45, minRotation: 45 },
+                title: { display: true, text: 'Timestamp', color: 'white' }
+              },
+              y: {
+                ticks: { color: 'white' },
+                title: { display: true, text: 'Count', color: 'white' }
+              }
+            }
+          }
+        });
+
+        const ctxBar = document.getElementById('contributorChart').getContext('2d');
+        contributorChart = new Chart(ctxBar, {
+          type: 'bar',
+          data: {
+            labels: contributors,
+            datasets: [{
+              label: 'Vulnerabilities by Contributor',
+              data: contributorCounts,
+              backgroundColor: contributorColors,
+              borderColor: contributorColors,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              x: { ticks: { color: 'white' }, title: { display: true, text: 'Contributor', color: 'white' } },
               y: { ticks: { color: 'white' }, title: { display: true, text: 'Count', color: 'white' } }
             }
           }
         });
 
-        //table search
         document.getElementById("searchInput").addEventListener("input", function () {
           const term = this.value.toLowerCase();
           const rows = document.querySelectorAll("#vuln-table tbody tr");
@@ -137,17 +228,31 @@
     }
 
     function downloadCSV() {
-      const rows = Array.from(document.querySelectorAll("#vuln-table tr"));
-      const csv = rows.map(row => 
-        Array.from(row.querySelectorAll("th, td"))
-             .map(cell => `"${cell.textContent}"`).join(',')
-      ).join('\n');
+      const rows = Array.from(document.querySelectorAll("#vuln-table tbody tr"))
+        .filter(row => row.style.display !== 'none');
 
-      const blob = new Blob([csv], { type: "text/csv" });
+      if (rows.length === 0) {
+        alert("No data to export!");
+        return;
+      }
+
+      const headers = Array.from(document.querySelectorAll("#vuln-table thead th"))
+                        .map(th => `"${th.textContent}"`)
+                        .join(",");
+
+      const csvRows = rows.map(row =>
+        Array.from(row.querySelectorAll("td"))
+          .map(td => `"${td.textContent}"`)
+          .join(",")
+      );
+
+      const csvContent = [headers, ...csvRows].join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "vulnerabilities.csv";
+      a.download = "filtered_vulnerabilities.csv";
       a.click();
       URL.revokeObjectURL(url);
     }
