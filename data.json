@@ -1,16 +1,17 @@
 {
   "entries": [
     {
-      "timestamp": "2025-07-22T22:41:35.014276",
+      "timestamp": "2025-07-23T21:59:41.858040",
       "count": 3,
       "file": "app/config/secret_config.py",
-      "type": "Stripe",
-      "contributor": "SimulatedUser"
+      "type": "stripe-secret-token",
+      "contributor": "UnknownUser",
+      "severity": "CRITICAL"
     }
   ],
   "alert": {
     "active": true,
     "count": 1,
-    "threshold": 1
+    "threshold": 2
   }
 }
