@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 OUTPUT_FILE = "trivy-results.json"
 
-CONTRIBUTORS = ["alice", "bob", "charlie", "diana", "eve"]
+CONTRIBUTORS = ["Subhashree", "Lana", "John", "George", "Sara"]
 SEVERITY_LEVELS = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 CATEGORY = "Hardcoded Secret"
 FILES = [

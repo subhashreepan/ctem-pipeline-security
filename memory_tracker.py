@@ -1,6 +1,8 @@
 import json
 import os
-from datetime import datetime
+import random
+import string
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 TRIVY_RESULTS_PATH = "trivy-results.json"
@@ -16,9 +18,13 @@ def load_json(path):
                 return {} if path == MEMORY_DB_PATH else []
     return {} if path == MEMORY_DB_PATH else []
 
+def generate_fake_commit_hash():
+    # Generate a 40-character lowercase hex string (SHA-1 style)
+    return ''.join(random.choices('0123456789abcdef', k=40))
+
 def extract_repeated_secrets(trivy_data, memory_db):
     repeated = defaultdict(lambda: {
-        "count": 0, "file": "", "type": "", "contributors": set(), "severity": ""
+        "count": 0, "file": "", "type": "", "contributors": set(), "severity": "", "commit_hash": ""
     })
 
     results = trivy_data.get("Results", [])
@@ -32,39 +38,54 @@ def extract_repeated_secrets(trivy_data, memory_db):
             contributor = secret.get("Contributor", "UnknownUser")
             severity = secret.get("Severity", "UNKNOWN")
             rule_id = secret.get("RuleID", "UNKNOWN")
+            commit_hash = secret.get("CommitHash", "").strip()
+            if not commit_hash:
+                commit_hash = generate_fake_commit_hash()
 
             if fingerprint in memory_db:
                 new_count = memory_db[fingerprint].get("repeat_count", 1) + 1
                 memory_db[fingerprint]["repeat_count"] = new_count
                 memory_db[fingerprint]["last_seen"] = datetime.utcnow().isoformat()
+                memory_db[fingerprint]["commit_hash"] = commit_hash
             else:
                 memory_db[fingerprint] = {
                     "first_seen": datetime.utcnow().isoformat(),
                     "repeat_count": 1,
-                    "last_seen": datetime.utcnow().isoformat()
+                    "last_seen": datetime.utcnow().isoformat(),
+                    "commit_hash": commit_hash
                 }
                 new_count = 1
 
             repeated[fingerprint]["count"] = new_count
             repeated[fingerprint]["file"] = result["Target"]
-            repeated[fingerprint]["type"] = rule_id  # <--- CHANGED HERE
+            repeated[fingerprint]["type"] = rule_id
             repeated[fingerprint]["contributors"].add(contributor)
             repeated[fingerprint]["severity"] = severity
+            repeated[fingerprint]["commit_hash"] = commit_hash
 
     return repeated, memory_db
 
 def build_dashboard_data(repeated_dict):
     dashboard_entries = []
-    timestamp = datetime.utcnow().isoformat()
 
     for _, details in repeated_dict.items():
+        start_date = datetime(2025, 1, 1)
+        end_date = datetime(2025, 7, 31)
+        delta = end_date - start_date
+        random_days = random.randint(0, delta.days)
+        random_time = timedelta(hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
+        varied_time = start_date + timedelta(days=random_days) + random_time
+        timestamp = varied_time.isoformat()
+
         entry = {
             "timestamp": timestamp,
             "count": details["count"],
             "file": details["file"],
-            "type": details["type"],  # rule_id now shown in dashboard
+            "type": details["type"],
             "contributor": ", ".join(details["contributors"]),
-            "severity": details.get("severity", "UNKNOWN")
+            "severity": details.get("severity", "UNKNOWN"),
+            "status": "repeated" if details["count"] > 1 else "new",
+            "commit_hash": details.get("commit_hash", "")
         }
         dashboard_entries.append(entry)
 

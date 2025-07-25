@@ -446,132 +446,229 @@
   },
   "ENV_SECRET_scripts/deploy.sh": {
     "first_seen": "2025-07-23T20:02:10.207973",
-    "repeat_count": 6,
-    "last_seen": "2025-07-23T20:57:40.113547"
+    "repeat_count": 14,
+    "last_seen": "2025-07-25T20:56:40.627865",
+    "commit_hash": "573f084cd9936b04892d62a30b2b98c05e25aa17"
   },
   "HARDCODED_TOKEN_src/api/token_handler.py": {
     "first_seen": "2025-07-23T20:02:10.219524",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:02:10.219553"
+    "repeat_count": 6,
+    "last_seen": "2025-07-24T18:38:40.183790"
   },
   "PASSWORD_STRING_README.md": {
     "first_seen": "2025-07-23T20:02:10.219567",
-    "repeat_count": 4,
-    "last_seen": "2025-07-23T20:57:40.113561"
+    "repeat_count": 21,
+    "last_seen": "2025-07-25T20:55:57.204449",
+    "commit_hash": "3d5de0e6b6a42a49decea087363fc3b020cfd601"
   },
   "SECRET_API_KEY_src/api/token_handler.py": {
     "first_seen": "2025-07-23T20:02:10.219588",
-    "repeat_count": 2,
-    "last_seen": "2025-07-23T20:02:10.219600"
+    "repeat_count": 9,
+    "last_seen": "2025-07-25T20:50:34.373867",
+    "commit_hash": "UNKNOWN"
   },
   "SECRET_API_KEY_init/setup_env.sh": {
     "first_seen": "2025-07-23T20:02:10.219607",
-    "repeat_count": 10,
-    "last_seen": "2025-07-23T20:57:40.113414"
+    "repeat_count": 30,
+    "last_seen": "2025-07-25T20:56:40.628091",
+    "commit_hash": "4d76607b3a6e3776d57849ee3b6fad16ac2dd713"
   },
   "SECRET_API_KEY_src/db/db_config.py": {
     "first_seen": "2025-07-23T20:02:10.219632",
-    "repeat_count": 4,
-    "last_seen": "2025-07-23T20:57:40.113346"
+    "repeat_count": 18,
+    "last_seen": "2025-07-25T20:55:57.204399",
+    "commit_hash": "e0af9882b5a50c2e3886c93032862c1feb72c6a3"
   },
   "ENV_SECRET_config/api_keys.json": {
     "first_seen": "2025-07-23T20:02:10.219646",
-    "repeat_count": 2,
-    "last_seen": "2025-07-23T20:02:10.219657"
+    "repeat_count": 12,
+    "last_seen": "2025-07-25T20:56:40.628157",
+    "commit_hash": "ef78bc255cb1c15bc332a089bb8b23fecab92959"
   },
   "ENV_SECRET_src/db/db_config.py": {
     "first_seen": "2025-07-23T20:02:10.219664",
-    "repeat_count": 7,
-    "last_seen": "2025-07-23T20:14:15.717357"
+    "repeat_count": 12,
+    "last_seen": "2025-07-25T20:20:39.008126"
   },
   "PASSWORD_STRING_src/api/token_handler.py": {
     "first_seen": "2025-07-23T20:02:10.219688",
-    "repeat_count": 8,
-    "last_seen": "2025-07-23T20:14:15.717493"
+    "repeat_count": 10,
+    "last_seen": "2025-07-25T20:50:34.373732",
+    "commit_hash": "UNKNOWN"
   },
   "HARDCODED_TOKEN_config/credentials.yml": {
     "first_seen": "2025-07-23T20:02:10.219699",
-    "repeat_count": 2,
-    "last_seen": "2025-07-23T20:02:10.219722"
+    "repeat_count": 10,
+    "last_seen": "2025-07-25T20:20:39.008183"
   },
   "SECRET_API_KEY_config/credentials.yml": {
     "first_seen": "2025-07-23T20:02:10.219746",
-    "repeat_count": 4,
-    "last_seen": "2025-07-23T20:14:15.717485"
+    "repeat_count": 10,
+    "last_seen": "2025-07-25T20:50:34.373804",
+    "commit_hash": "UNKNOWN"
   },
   "ENV_SECRET_src/app/auth.py": {
     "first_seen": "2025-07-23T20:02:10.219783",
-    "repeat_count": 2,
-    "last_seen": "2025-07-23T20:14:15.717365"
+    "repeat_count": 7,
+    "last_seen": "2025-07-25T18:51:37.532824"
   },
   "ENV_SECRET_src/api/token_handler.py": {
     "first_seen": "2025-07-23T20:14:15.716974",
-    "repeat_count": 5,
-    "last_seen": "2025-07-23T20:14:15.717468"
+    "repeat_count": 16,
+    "last_seen": "2025-07-25T20:50:34.373976",
+    "commit_hash": "UNKNOWN"
   },
   "HARDCODED_TOKEN_README.md": {
     "first_seen": "2025-07-23T20:14:15.717336",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T20:14:15.717341"
+    "repeat_count": 3,
+    "last_seen": "2025-07-25T20:55:57.204358",
+    "commit_hash": "b2957cf4942c116576d303e4126e4149154ff559"
   },
   "ENV_SECRET_init/setup_env.sh": {
     "first_seen": "2025-07-23T20:14:15.717373",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:14:15.717390"
+    "repeat_count": 7,
+    "last_seen": "2025-07-25T20:55:57.204388",
+    "commit_hash": "586da128c40b5c94df1bbecb29af77c0eea7dec6"
   },
   "HARDCODED_TOKEN_config/api_keys.json": {
     "first_seen": "2025-07-23T20:14:15.717395",
-    "repeat_count": 4,
-    "last_seen": "2025-07-23T20:14:15.717501"
+    "repeat_count": 13,
+    "last_seen": "2025-07-25T20:55:57.204141",
+    "commit_hash": "cf4981a21a6aeed47e6741ed2df566634ed2cf68"
   },
   "SECRET_API_KEY_Dockerfile": {
     "first_seen": "2025-07-23T20:14:15.717407",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:14:15.717422"
+    "repeat_count": 11,
+    "last_seen": "2025-07-25T20:56:40.628141",
+    "commit_hash": "00264f1c730b363feac41c488e3a1c9edcedc2c5"
   },
   "SECRET_API_KEY_README.md": {
     "first_seen": "2025-07-23T20:14:15.717425",
-    "repeat_count": 5,
-    "last_seen": "2025-07-23T20:14:15.717476"
+    "repeat_count": 6,
+    "last_seen": "2025-07-24T18:38:40.183926"
   },
   "ENV_SECRET_README.md": {
     "first_seen": "2025-07-23T20:14:15.717440",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:14:15.717454"
+    "repeat_count": 21,
+    "last_seen": "2025-07-25T20:20:39.008776"
   },
   "PASSWORD_STRING_src/utils/secrets.py": {
     "first_seen": "2025-07-23T20:57:40.113118",
-    "repeat_count": 5,
-    "last_seen": "2025-07-23T20:57:40.113366"
+    "repeat_count": 13,
+    "last_seen": "2025-07-25T20:55:57.204338",
+    "commit_hash": "b99c752064be7d71bdc463634294be152e938897"
   },
   "HARDCODED_TOKEN_src/utils/secrets.py": {
     "first_seen": "2025-07-23T20:57:40.113395",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T20:57:40.113402"
+    "repeat_count": 5,
+    "last_seen": "2025-07-25T20:56:40.627643",
+    "commit_hash": "16848426f13386d6400cae304337522a3abc6597"
   },
   "HARDCODED_TOKEN_src/app/auth.py": {
     "first_seen": "2025-07-23T20:57:40.113423",
-    "repeat_count": 5,
-    "last_seen": "2025-07-23T20:57:40.113502"
+    "repeat_count": 7,
+    "last_seen": "2025-07-25T20:50:34.373546",
+    "commit_hash": "UNKNOWN"
   },
   "HARDCODED_TOKEN_init/setup_env.sh": {
     "first_seen": "2025-07-23T20:57:40.113451",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:57:40.113479"
+    "repeat_count": 15,
+    "last_seen": "2025-07-25T18:51:37.532886"
   },
   "PASSWORD_STRING_src/db/db_config.py": {
     "first_seen": "2025-07-23T20:57:40.113509",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:57:40.113526"
+    "repeat_count": 19,
+    "last_seen": "2025-07-25T20:56:40.628194",
+    "commit_hash": "5c00c9827e11d934f74e7a86afc9e42badf7217c"
   },
   "HARDCODED_TOKEN_scripts/deploy.sh": {
     "first_seen": "2025-07-23T20:57:40.113568",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:57:40.113582"
+    "repeat_count": 16,
+    "last_seen": "2025-07-25T20:55:57.204504",
+    "commit_hash": "d6cee91898e84ce0c67e5ae772512f7334e24231"
   },
   "SECRET_API_KEY_config/api_keys.json": {
     "first_seen": "2025-07-23T20:57:40.113587",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T20:57:40.113601"
+    "repeat_count": 10,
+    "last_seen": "2025-07-25T18:51:37.532941"
+  },
+  "SECRET_API_KEY_scripts/deploy.sh": {
+    "first_seen": "2025-07-24T18:12:00.543751",
+    "repeat_count": 11,
+    "last_seen": "2025-07-25T20:56:40.628033",
+    "commit_hash": "c24ffc9c193b5e428d683c8ff06fb293fbaf4f99"
+  },
+  "HARDCODED_TOKEN_Dockerfile": {
+    "first_seen": "2025-07-24T18:12:00.543953",
+    "repeat_count": 5,
+    "last_seen": "2025-07-25T20:20:39.008244"
+  },
+  "ENV_SECRET_Dockerfile": {
+    "first_seen": "2025-07-24T18:29:03.965519",
+    "repeat_count": 9,
+    "last_seen": "2025-07-25T20:20:39.009235"
+  },
+  "ENV_SECRET_config/credentials.yml": {
+    "first_seen": "2025-07-24T18:29:03.965744",
+    "repeat_count": 8,
+    "last_seen": "2025-07-25T20:20:39.008814"
+  },
+  "PASSWORD_STRING_src/app/auth.py": {
+    "first_seen": "2025-07-24T18:29:03.965818",
+    "repeat_count": 11,
+    "last_seen": "2025-07-25T20:56:40.627943",
+    "commit_hash": "e17fb1208043e137317702a52688a8dc77e32bb6"
+  },
+  "SECRET_API_KEY_src/app/auth.py": {
+    "first_seen": "2025-07-24T18:38:40.183554",
+    "repeat_count": 12,
+    "last_seen": "2025-07-25T20:56:40.627898",
+    "commit_hash": "e9f2fb496a42990ecc604ce5f82a6fd9e0ca43ca"
+  },
+  "PASSWORD_STRING_scripts/deploy.sh": {
+    "first_seen": "2025-07-24T18:38:40.183797",
+    "repeat_count": 5,
+    "last_seen": "2025-07-25T20:20:09.893963"
+  },
+  "ENV_SECRET_src/utils/secrets.py": {
+    "first_seen": "2025-07-24T18:38:40.183947",
+    "repeat_count": 14,
+    "last_seen": "2025-07-25T20:55:57.204262",
+    "commit_hash": "51aa8c77a4d578132e445ae4b831ee7eac0a1514"
+  },
+  "PASSWORD_STRING_config/api_keys.json": {
+    "first_seen": "2025-07-24T18:38:40.183958",
+    "repeat_count": 5,
+    "last_seen": "2025-07-25T20:56:40.627759",
+    "commit_hash": "47de7833925bae7bb2d06f1bdee0a88b45bb714c"
+  },
+  "HARDCODED_TOKEN_src/db/db_config.py": {
+    "first_seen": "2025-07-24T18:42:52.953898",
+    "repeat_count": 9,
+    "last_seen": "2025-07-25T20:56:40.628077",
+    "commit_hash": "4c79d82b53c975c4c9a7758024b8563a4ec9981c"
+  },
+  "PASSWORD_STRING_init/setup_env.sh": {
+    "first_seen": "2025-07-24T18:42:52.954232",
+    "repeat_count": 12,
+    "last_seen": "2025-07-25T20:56:40.627811",
+    "commit_hash": "db8edac39238a7020a76cef285ed70d12c13ad3e"
+  },
+  "SECRET_API_KEY_src/utils/secrets.py": {
+    "first_seen": "2025-07-24T18:42:52.954298",
+    "repeat_count": 6,
+    "last_seen": "2025-07-25T20:20:39.008221"
+  },
+  "PASSWORD_STRING_Dockerfile": {
+    "first_seen": "2025-07-24T18:42:52.954329",
+    "repeat_count": 8,
+    "last_seen": "2025-07-25T20:56:40.627991",
+    "commit_hash": "540072df4fc55e849f212c860e40fec4117829ec"
+  },
+  "PASSWORD_STRING_config/credentials.yml": {
+    "first_seen": "2025-07-25T20:20:39.008572",
+    "repeat_count": 6,
+    "last_seen": "2025-07-25T20:56:40.627795",
+    "commit_hash": "92966339300ba042a9b2cf50bdb03b86ca3c343c"
   }
 }
