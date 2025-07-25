@@ -44,6 +44,8 @@
           <th>Type</th>
           <th>Severity</th>
           <th>Count</th>
+          <th>Status</th>
+          <th>Commit Hash</th>
         </tr>
       </thead>
       <tbody>
@@ -88,6 +90,12 @@
 
         entries.forEach(entry => {
           const displayTs = fmtTimestamp(entry.timestamp);
+          const statusBadge = entry.status === 'repeated'
+            ? '<span class="badge bg-danger">Repeated</span>'
+            : '<span class="badge bg-success">New</span>';
+
+          const commitShort = entry.commit_hash ? entry.commit_hash.substring(0,7) : 'N/A';
+
           const row = document.createElement('tr');
           row.innerHTML = `
             <td title="${entry.contributor || ''}">${entry.contributor || 'N/A'}</td>
@@ -96,40 +104,32 @@
             <td title="${entry.type || ''}">${entry.type || 'N/A'}</td>
             <td title="${entry.severity || ''}">${entry.severity || 'N/A'}</td>
             <td title="${entry.count || 0}">${entry.count || 0}</td>
+            <td>${statusBadge}</td>
+            <td title="${entry.commit_hash || ''}">${commitShort}</td>
           `;
           tbody.appendChild(row);
         });
 
-        // *** UPDATED: Make timestamps unique by adding seconds offset for same timestamps ***
         const timestampOccurrences = {};
         const countsByTimestamp = {};
 
         entries.forEach(e => {
           if (e.timestamp && e.count !== undefined) {
             const baseTs = fmtTimestamp(e.timestamp);
-
-            // Track how many times this timestamp has occurred before
             timestampOccurrences[baseTs] = (timestampOccurrences[baseTs] || 0) + 1;
 
-            // Parse date and add seconds offset to make unique labels
             const dateObj = new Date(baseTs);
             if (isNaN(dateObj)) {
-              // fallback if invalid date
               countsByTimestamp[baseTs] = (countsByTimestamp[baseTs] || 0) + e.count;
             } else {
-              // Add offset in seconds based on occurrence count (subtract 1 because first is 0 offset)
               const offsetSeconds = timestampOccurrences[baseTs] - 1;
               dateObj.setSeconds(dateObj.getSeconds() + offsetSeconds);
-
-              // Format back to ISO-ish string without timezone, just like fmtTimestamp output
               const uniqueLabel = dateObj.toISOString().split('.')[0];
-
               countsByTimestamp[uniqueLabel] = (countsByTimestamp[uniqueLabel] || 0) + e.count;
             }
           }
         });
 
-        // Sort timestamps ascending
         const sortedLabels = Object.keys(countsByTimestamp).sort();
         const countsArray = sortedLabels.map(label => countsByTimestamp[label]);
 
@@ -250,11 +250,17 @@
 
       const blob = new Blob([csvContent], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
+
       const a = document.createElement("a");
       a.href = url;
-      a.download = "filtered_vulnerabilities.csv";
+      a.download = "ctem_repeated_vulnerabilities_report.csv";
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
+
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
     }
 
     window.addEventListener('DOMContentLoaded', loadData);
