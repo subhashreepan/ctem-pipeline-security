@@ -23,6 +23,11 @@
       <strong>Security Alert:</strong> Repeated vulnerabilities detected!
     </div>
 
+    <!--note -->
+    <p class="mt-2" style="font-size: 0.9rem; color: #fff203">
+       <strong>Note:</strong> The first chart (<em>Vulnerability Trends Over Time</em>) visualizes how repeated vulnerabilities have changed over time. The second chart (<em>Contributor Behavior</em>) highlights which contributors are associated with the most vulnerabilities. The table below details each vulnerability, its contributor, severity, whether it’s new or repeated, and when it was first and last seen.
+    </p>
+
     <h5>Vulnerability Trends Over Time</h5>
     <canvas id="vulnChart" width="600" height="200"></canvas>
 
@@ -46,8 +51,8 @@
           <th>Count</th>
           <th>Status</th>
           <th>Commit Hash</th>
-          <th>Since First Seen (days)</th>
-          <th>Since Last Seen (days)</th>
+          <th>First Seen (days)</th>
+          <th>Last Seen (days)</th>
         </tr>
       </thead>
       <tbody></tbody>
