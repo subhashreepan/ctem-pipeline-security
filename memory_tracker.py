@@ -1,142 +1,277 @@
-import json
-import os
-import random
-import string
-from datetime import datetime, timedelta, timezone
-from collections import defaultdict
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTEM Repeated Vulnerabilities Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background-color: #121212; color: #fff; }
+    h2, h5 { margin-top: 20px; }
+    table th, table td { color: #fff; }
+    canvas { background-color: #1e1e1e; border-radius: 10px; padding: 10px; }
+    .search-box { margin: 15px 0; }
+    .btn-light { background-color: #fff; color: #000; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Continuous Threat Exposure Management (CTEM) — Recurrent Vulnerability Analysis</h2>
 
-TRIVY_RESULTS_PATH = "trivy-results.json"
-MEMORY_DB_PATH = "memory_db.json"
-OUTPUT_DATA_PATH = "data.json"
+    <div id="alertBox" class="alert alert-danger mt-4 d-none" role="alert">
+      <strong>Security Alert:</strong> Repeated vulnerabilities detected!
+    </div>
 
-def load_json(path):
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            try:
-                return json.load(f)
-            except json.JSONDecodeError:
-                return {} if path == MEMORY_DB_PATH else []
-    return {} if path == MEMORY_DB_PATH else []
+    <!-- 📌 Added note -->
+    <p class="text-muted mt-2" style="font-size: 0.9rem;">
+      📊 <strong>Note:</strong> The first chart (<em>Vulnerability Trends Over Time</em>) visualizes how repeated vulnerabilities have changed over time. The second chart (<em>Contributor Behavior</em>) highlights which contributors are associated with the most vulnerabilities. The table below details each vulnerability, its contributor, severity, whether it’s new or repeated, and when it was first and last seen.
+    </p>
 
-def generate_fake_commit_hash():
-    return ''.join(random.choices('0123456789abcdef', k=40))
+    <h5>Vulnerability Trends Over Time</h5>
+    <canvas id="vulnChart" width="600" height="200"></canvas>
 
-def human_friendly_timedelta(delta):
-    if delta.days > 0:
-        return f"{delta.days} day{'s' if delta.days != 1 else ''} ago"
-    hours = delta.seconds // 3600
-    if hours > 0:
-        return f"{hours} hour{'s' if hours != 1 else ''} ago"
-    minutes = (delta.seconds % 3600) // 60
-    if minutes > 0:
-        return f"{minutes} minute{'s' if minutes != 1 else ''} ago"
-    return "just now"
+    <h5>Contributor Behavior - Vulnerability Counts</h5>
+    <canvas id="contributorChart" width="600" height="200"></canvas>
 
-def extract_repeated_secrets(trivy_data, memory_db):
-    repeated = defaultdict(lambda: {
-        "count": 0, "file": "", "type": "", "contributors": set(), "severity": "", "commit_hash": ""
-    })
+    <div class="d-flex justify-content-between align-items-center search-box">
+      <input type="text" id="searchInput" class="form-control me-2" placeholder="Search table..." />
+      <button class="btn btn-light" onclick="downloadCSV()">Export CSV</button>
+    </div>
 
-    results = trivy_data.get("Results", [])
+    <h5>Detected Repeated Vulnerabilities</h5>
+    <table class="table table-dark table-striped" id="vuln-table">
+      <thead>
+        <tr>
+          <th>Contributor</th>
+          <th>Timestamp</th>
+          <th>File</th>
+          <th>Type</th>
+          <th>Severity</th>
+          <th>Count</th>
+          <th>Status</th>
+          <th>Commit Hash</th>
+          <th>First Seen (days)</th>
+          <th>Last Seen (days)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-    for result in results:
-        if result.get("Class") != "secret":
-            continue
+  <script>
+    let vulnChart = null;
+    let contributorChart = null;
 
-        for secret in result.get("Secrets", []):
-            fingerprint = f"{secret['RuleID']}_{result['Target']}"
-            contributor = secret.get("Contributor", "UnknownUser")
-            severity = secret.get("Severity", "UNKNOWN")
-            rule_id = secret.get("RuleID", "UNKNOWN")
-            commit_hash = secret.get("CommitHash", "").strip()
-            if not commit_hash:
-                commit_hash = generate_fake_commit_hash()
-
-            if fingerprint in memory_db:
-                new_count = memory_db[fingerprint].get("repeat_count", 1) + 1
-                memory_db[fingerprint]["repeat_count"] = new_count
-                memory_db[fingerprint]["last_seen"] = datetime.utcnow().isoformat()
-                memory_db[fingerprint]["commit_hash"] = commit_hash
-            else:
-                memory_db[fingerprint] = {
-                    "first_seen": datetime.utcnow().isoformat(),
-                    "repeat_count": 1,
-                    "last_seen": datetime.utcnow().isoformat(),
-                    "commit_hash": commit_hash
-                }
-                new_count = 1
-
-            repeated[fingerprint]["count"] = new_count
-            repeated[fingerprint]["file"] = result["Target"]
-            repeated[fingerprint]["type"] = rule_id
-            repeated[fingerprint]["contributors"].add(contributor)
-            repeated[fingerprint]["severity"] = severity
-            repeated[fingerprint]["commit_hash"] = commit_hash
-
-    return repeated, memory_db
-
-def build_dashboard_data(repeated_dict, memory_db):
-    dashboard_entries = []
-    now = datetime.utcnow().replace(tzinfo=timezone.utc)
-
-    for fingerprint, details in repeated_dict.items():
-        first_seen_str = memory_db[fingerprint].get("first_seen")
-        last_seen_str = memory_db[fingerprint].get("last_seen")
-
-        try:
-            first_seen = datetime.fromisoformat(first_seen_str).replace(tzinfo=timezone.utc)
-        except:
-            first_seen = now
-        try:
-            last_seen = datetime.fromisoformat(last_seen_str).replace(tzinfo=timezone.utc)
-        except:
-            last_seen = now
-
-        time_since_first = human_friendly_timedelta(now - first_seen)
-        time_since_last = human_friendly_timedelta(now - last_seen)
-
-        entry = {
-            "timestamp": last_seen_str,
-            "count": details["count"],
-            "file": details["file"],
-            "type": details["type"],
-            "contributor": ", ".join(details["contributors"]),
-            "severity": details.get("severity", "UNKNOWN"),
-            "status": "repeated" if details["count"] > 1 else "new",
-            "commit_hash": details.get("commit_hash", ""),
-            "time_since_first_seen": time_since_first,
-            "time_since_last_seen": time_since_last
-        }
-        dashboard_entries.append(entry)
-
-    return dashboard_entries
-
-def main():
-    trivy_data = load_json(TRIVY_RESULTS_PATH)
-    memory_db = load_json(MEMORY_DB_PATH)
-
-    repeated_dict, updated_memory = extract_repeated_secrets(trivy_data, memory_db)
-    dashboard_data = build_dashboard_data(repeated_dict, updated_memory)
-
-    REPEAT_THRESHOLD = 2
-    alert_entries = [v for v in repeated_dict.values() if v["count"] >= REPEAT_THRESHOLD]
-
-    output = {
-        "entries": dashboard_data,
-        "alert": {
-            "active": len(alert_entries) > 0,
-            "count": len(alert_entries),
-            "threshold": REPEAT_THRESHOLD
-        }
+    function fmtTimestamp(ts) {
+      if (!ts) return "N/A";
+      const [datePart, timePart] = ts.split("T");
+      if (!timePart) return ts;
+      const cleanTime = timePart.split(/[Z+-]/)[0];
+      const parts = cleanTime.split(":");
+      if (parts.length < 2) return ts;
+      const hh = parts[0].padStart(2,"0");
+      const mm = parts[1].padStart(2,"0");
+      let sec = parts[2] ? parts[2].split(".")[0] : "00";
+      sec = sec.padStart(2,"0");
+      return `${datePart}T${hh}:${mm}:${sec}`;
     }
 
-    with open(OUTPUT_DATA_PATH, "w") as outf:
-        json.dump(output, outf, indent=2)
+    async function loadData() {
+      try {
+        const response = await fetch('data.json');
+        const data = await response.json();
 
-    with open(MEMORY_DB_PATH, "w") as memf:
-        json.dump(updated_memory, memf, indent=2)
+        const alertBox = document.getElementById("alertBox");
+        if (data.alert && data.alert.active) {
+          alertBox.classList.remove("d-none");
+          alertBox.innerHTML = `<strong>Security Alert:</strong> ${data.alert.count} repeated vulnerabilities detected!`;
+        } else {
+          alertBox.classList.add("d-none");
+        }
 
-    print(f"[memory_tracker.py] Dashboard data written to {OUTPUT_DATA_PATH}")
+        const entries = data.entries || [];
+        const tbody = document.querySelector('#vuln-table tbody');
+        tbody.innerHTML = '';
 
-if __name__ == "__main__":
-    main()
+        entries.forEach(entry => {
+          const displayTs = fmtTimestamp(entry.timestamp);
+          const statusBadge = entry.status === 'repeated'
+            ? '<span class="badge bg-danger">Repeated</span>'
+            : '<span class="badge bg-success">New</span>';
+
+          const commitShort = entry.commit_hash ? entry.commit_hash.substring(0,7) : 'N/A';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td title="${entry.contributor || ''}">${entry.contributor || 'N/A'}</td>
+            <td title="${entry.timestamp || ''}">${displayTs}</td>
+            <td title="${entry.file || ''}">${entry.file || 'N/A'}</td>
+            <td title="${entry.type || ''}">${entry.type || 'N/A'}</td>
+            <td title="${entry.severity || ''}">${entry.severity || 'N/A'}</td>
+            <td title="${entry.count || 0}">${entry.count || 0}</td>
+            <td>${statusBadge}</td>
+            <td title="${entry.commit_hash || ''}">${commitShort}</td>
+            <td>${entry.time_since_first_seen ?? 'N/A'}</td>
+            <td>${entry.time_since_last_seen ?? 'N/A'}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        const timestampOccurrences = {};
+        const countsByTimestamp = {};
+
+        entries.forEach(e => {
+          if (e.timestamp && e.count !== undefined) {
+            const baseTs = fmtTimestamp(e.timestamp);
+            timestampOccurrences[baseTs] = (timestampOccurrences[baseTs] || 0) + 1;
+
+            const dateObj = new Date(baseTs);
+            if (isNaN(dateObj)) {
+              countsByTimestamp[baseTs] = (countsByTimestamp[baseTs] || 0) + e.count;
+            } else {
+              const offsetSeconds = timestampOccurrences[baseTs] - 1;
+              dateObj.setSeconds(dateObj.getSeconds() + offsetSeconds);
+              const uniqueLabel = dateObj.toISOString().split('.')[0];
+              countsByTimestamp[uniqueLabel] = (countsByTimestamp[uniqueLabel] || 0) + e.count;
+            }
+          }
+        });
+
+        const sortedLabels = Object.keys(countsByTimestamp).sort();
+        const countsArray = sortedLabels.map(label => countsByTimestamp[label]);
+
+        const countsByContributor = {};
+        entries.forEach(e => {
+          if (e.contributor && e.count !== undefined) {
+            countsByContributor[e.contributor] = (countsByContributor[e.contributor] || 0) + e.count;
+          }
+        });
+
+        const contributors = Object.keys(countsByContributor);
+        const contributorCounts = contributors.map(c => countsByContributor[c]);
+
+        const contributorColors = contributors.map((_, i) => {
+          const hue = (i * 360 / contributors.length) % 360;
+          return `hsl(${hue}, 70%, 80%)`;
+        });
+
+        if (vulnChart) vulnChart.destroy();
+        if (contributorChart) contributorChart.destroy();
+
+        const ctxLine = document.getElementById('vulnChart').getContext('2d');
+        vulnChart = new Chart(ctxLine, {
+          type: 'line',
+          data: {
+            labels: sortedLabels,
+            datasets: [{
+              label: 'Repeated Vulnerabilities',
+              data: countsArray,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderWidth: 2,
+              tension: 0.3,
+              fill: true,
+              pointBackgroundColor: '#fff'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { color: 'white' } },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              x: {
+                ticks: { color: 'white', maxRotation: 45, minRotation: 45 },
+                title: { display: true, text: 'Timestamp', color: 'white' }
+              },
+              y: {
+                ticks: { color: 'white' },
+                title: { display: true, text: 'Count', color: 'white' }
+              }
+            }
+          }
+        });
+
+        const ctxBar = document.getElementById('contributorChart').getContext('2d');
+        contributorChart = new Chart(ctxBar, {
+          type: 'bar',
+          data: {
+            labels: contributors,
+            datasets: [{
+              label: 'Vulnerabilities by Contributor',
+              data: contributorCounts,
+              backgroundColor: contributorColors,
+              borderColor: contributorColors,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              x: { ticks: { color: 'white' }, title: { display: true, text: 'Contributor', color: 'white' } },
+              y: { ticks: { color: 'white' }, title: { display: true, text: 'Count', color: 'white' } }
+            }
+          }
+        });
+
+        document.getElementById("searchInput").addEventListener("input", function () {
+          const term = this.value.toLowerCase();
+          const rows = document.querySelectorAll("#vuln-table tbody tr");
+          rows.forEach(row => {
+            row.style.display = Array.from(row.cells).some(cell =>
+              cell.textContent.toLowerCase().includes(term)
+            ) ? '' : 'none';
+          });
+        });
+
+      } catch (err) {
+        console.error("Failed to load or parse data.json:", err);
+      }
+    }
+
+    function downloadCSV() {
+      const rows = Array.from(document.querySelectorAll("#vuln-table tbody tr"))
+        .filter(row => row.style.display !== 'none');
+
+      if (rows.length === 0) {
+        alert("No data to export!");
+        return;
+      }
+
+      const headers = Array.from(document.querySelectorAll("#vuln-table thead th"))
+                        .map(th => `"${th.textContent}"`)
+                        .join(",");
+
+      const csvRows = rows.map(row =>
+        Array.from(row.querySelectorAll("td"))
+          .map(td => `"${td.textContent}"`)
+          .join(",")
+      );
+
+      const csvContent = [headers, ...csvRows].join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ctem_repeated_vulnerabilities_report.csv";
+      document.body.appendChild(a);
+      a.click();
+
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+
+    window.addEventListener('DOMContentLoaded', loadData);
+  </script>
+</body>
+</html>
