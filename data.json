@@ -1,144 +1,172 @@
 {
   "entries": [
     {
-      "timestamp": "2025-01-23T07:44:36",
+      "timestamp": "2025-07-26T08:44:12.516988",
       "count": 1,
       "file": "src/utils/secrets.py",
       "type": "HARDCODED_TOKEN",
       "contributor": "Sara",
       "severity": "CRITICAL",
       "status": "new",
-      "commit_hash": "04c2b26e28afcc9e1fe4fcb7b388a69546ba57db"
+      "commit_hash": "5f1e577bd9ff6016964534bdcc72af2a251d95f6",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-05-16T17:29:04",
+      "timestamp": "2025-07-26T08:44:12.517329",
       "count": 3,
       "file": "config/api_keys.json",
       "type": "PASSWORD_STRING",
       "contributor": "John",
       "severity": "HIGH",
       "status": "repeated",
-      "commit_hash": "02c1357e38cd76b120309c4f5a1fae722f1a11f7"
+      "commit_hash": "8bf5f613e1850ff52e4df7dbc2ad10e718405d87",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-07-29T07:17:55",
+      "timestamp": "2025-07-26T08:44:12.517384",
       "count": 2,
       "file": "config/credentials.yml",
       "type": "PASSWORD_STRING",
       "contributor": "Lana",
       "severity": "LOW",
       "status": "repeated",
-      "commit_hash": "7a209212556ecdd6208309c5fd878e34bbb0a541"
+      "commit_hash": "dd78c139880407296d08fbc434f3c3ae36f43b04",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-03-04T00:12:06",
+      "timestamp": "2025-07-26T08:44:12.517412",
       "count": 1,
       "file": "init/setup_env.sh",
       "type": "PASSWORD_STRING",
       "contributor": "Subhashree",
       "severity": "CRITICAL",
       "status": "new",
-      "commit_hash": "bd696cf7a254ead1a00a0a1bf9ff12e28f651c3e"
+      "commit_hash": "f16d9f79fe8ebbb1c8be08834fc5668ab819a40b",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-06-06T17:42:58",
+      "timestamp": "2025-07-26T08:44:12.517484",
       "count": 3,
       "file": "scripts/deploy.sh",
       "type": "ENV_SECRET",
       "contributor": "Sara",
       "severity": "CRITICAL",
       "status": "repeated",
-      "commit_hash": "4f81d51147f00866338e22e36e1b7b7355c48bc2"
+      "commit_hash": "a77372274d708e2f00d6b9d6312282890dc0bbb5",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-02-04T15:48:46",
+      "timestamp": "2025-07-26T08:44:12.517534",
       "count": 2,
       "file": "src/app/auth.py",
       "type": "SECRET_API_KEY",
       "contributor": "Sara",
       "severity": "LOW",
       "status": "repeated",
-      "commit_hash": "92af1b14aa7d985f4190b2167ec4e510ff7e0b41"
+      "commit_hash": "735e22b63c01a1e333db290a3ab7aca6ac4d1e9e",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-01-30T07:02:08",
+      "timestamp": "2025-07-26T08:44:12.517584",
       "count": 3,
       "file": "src/app/auth.py",
       "type": "PASSWORD_STRING",
       "contributor": "Sara",
       "severity": "LOW",
       "status": "repeated",
-      "commit_hash": "c848e5067a6857c1031d7e6e826980b5351cff67"
+      "commit_hash": "6d0e52f3ed74acc1036225d0ef2968e4f3985594",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-02-02T04:08:59",
+      "timestamp": "2025-07-26T08:44:12.517680",
       "count": 4,
       "file": "scripts/deploy.sh",
       "type": "SECRET_API_KEY",
       "contributor": "Lana, Sara",
       "severity": "CRITICAL",
       "status": "repeated",
-      "commit_hash": "71cd405722bb749a631b1acdcbe4a88d884565f5"
+      "commit_hash": "6fd5e807049cb8f4ad87a4dd4d4ae9c44aab8a60",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-04-22T19:20:48",
+      "timestamp": "2025-07-26T08:44:12.517638",
       "count": 2,
       "file": "Dockerfile",
       "type": "PASSWORD_STRING",
       "contributor": "John",
       "severity": "LOW",
       "status": "repeated",
-      "commit_hash": "0ad570864ddae1ee7af0080d23193223d7ad6736"
+      "commit_hash": "ed8f25dedd2f8d3fd250c63cf9c7ab16760de0b7",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-05-28T22:17:24",
+      "timestamp": "2025-07-26T08:44:12.517728",
       "count": 3,
       "file": "src/db/db_config.py",
       "type": "HARDCODED_TOKEN",
       "contributor": "Sara",
       "severity": "MEDIUM",
       "status": "repeated",
-      "commit_hash": "34c93ff1c935bb69ccfb7190b3a1618d7444a86c"
+      "commit_hash": "03b304a55648ff522ecd7e20c4baf2df2a599428",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-04-09T15:32:49",
+      "timestamp": "2025-07-26T08:44:12.517746",
       "count": 1,
       "file": "init/setup_env.sh",
       "type": "SECRET_API_KEY",
       "contributor": "Sara",
       "severity": "CRITICAL",
       "status": "new",
-      "commit_hash": "98728982975758e0387c896e00faf00ee716b0fe"
+      "commit_hash": "2d5d677be7a8f0708864f64e63f35bf0bcbc126f",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-03-21T03:42:38",
+      "timestamp": "2025-07-26T08:44:12.517795",
       "count": 3,
       "file": "Dockerfile",
       "type": "SECRET_API_KEY",
       "contributor": "Subhashree",
       "severity": "MEDIUM",
       "status": "repeated",
-      "commit_hash": "b52fbf94fa466cb3b5f846003c4f64a6e7dce180"
+      "commit_hash": "721aa52ba4d2dcf5b6177ad0f864a4b80a08a643",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-05-07T04:12:39",
+      "timestamp": "2025-07-26T08:44:12.517813",
       "count": 1,
       "file": "config/api_keys.json",
       "type": "ENV_SECRET",
       "contributor": "George",
       "severity": "CRITICAL",
       "status": "new",
-      "commit_hash": "5241dbbde0494d1fc6f92377ad3d14ce26a3dbbb"
+      "commit_hash": "4961ca93dd67f0bf773d185ada4c93b1d304ac7b",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     },
     {
-      "timestamp": "2025-06-19T21:09:10",
+      "timestamp": "2025-07-26T08:44:12.517846",
       "count": 2,
       "file": "src/db/db_config.py",
       "type": "PASSWORD_STRING",
       "contributor": "George",
       "severity": "HIGH",
       "status": "repeated",
-      "commit_hash": "34b3fe2ff8082299702c3f8128145fb6a2b83ed1"
+      "commit_hash": "a27d5666b0cbffe894a731aa49c411c52aff5e46",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     }
   ],
   "alert": {

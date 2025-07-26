@@ -1,674 +1,86 @@
 {
-  "stripe-secret-token_app/config/secret_config.py": {
-    "first_seen": "2025-07-20T22:31:38.469688",
-    "repeat_count": 2,
-    "last_seen": "2025-07-21T11:38:33.548510"
-  },
-  "aws-access-key_app/config.py": {
-    "first_seen": "2025-07-21T18:46:57.577702",
-    "repeat_count": 4,
-    "last_seen": "2025-07-23T18:08:10.574150"
-  },
-  "generic-api-key_app/config.py": {
-    "first_seen": "2025-07-21T18:46:57.577773",
-    "repeat_count": 0,
-    "last_seen": "2025-07-21T18:46:57.577781"
-  },
-  "db-password_app/config.py": {
-    "first_seen": "2025-07-21T18:49:59.059829",
-    "repeat_count": 3,
-    "last_seen": "2025-07-23T18:08:10.574212"
-  },
-  "slack-token_app/config.py": {
-    "first_seen": "2025-07-21T18:53:30.212500",
-    "repeat_count": 2,
-    "last_seen": "2025-07-23T18:08:10.574222"
-  },
-  "RULE1_app/config_0.py_HIGH": {
-    "first_seen": "2025-07-23T18:30:56.490731+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180768+00:00"
-  },
-  "RULE2_app/config_1.py_MEDIUM": {
-    "first_seen": "2025-07-23T18:30:56.490768+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180805+00:00"
-  },
-  "RULE3_app/config_2.py_CRITICAL": {
-    "first_seen": "2025-07-23T18:30:56.490786+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180818+00:00"
-  },
-  "RULE4_app/config_3.py_MEDIUM": {
-    "first_seen": "2025-07-23T18:30:56.490796+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180828+00:00"
-  },
-  "RULE5_app/config_4.py_HIGH": {
-    "first_seen": "2025-07-23T18:30:56.490806+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180838+00:00"
-  },
-  "RULE6_app/config_5.py_CRITICAL": {
-    "first_seen": "2025-07-23T18:30:56.490815+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180847+00:00"
-  },
-  "RULE7_app/config_6.py_LOW": {
-    "first_seen": "2025-07-23T18:30:56.490825+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180856+00:00"
-  },
-  "RULE8_app/config_7.py_LOW": {
-    "first_seen": "2025-07-23T18:30:56.490834+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180864+00:00"
-  },
-  "RULE9_app/config_8.py_MEDIUM": {
-    "first_seen": "2025-07-23T18:30:56.490849+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180873+00:00"
-  },
-  "RULE10_app/config_9.py_HIGH": {
-    "first_seen": "2025-07-23T18:30:56.490858+00:00",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T18:35:05.180881+00:00"
-  },
-  "rule_3274_app/config_0.py": {
-    "first_seen": "2025-07-23T18:42:04.144702+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144742+00:00"
-  },
-  "rule_9210_app/config_0.py": {
-    "first_seen": "2025-07-23T18:42:04.144770+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144776+00:00"
-  },
-  "rule_8256_app/config_1.py": {
-    "first_seen": "2025-07-23T18:42:04.144797+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144802+00:00"
-  },
-  "rule_4756_app/config_2.py": {
-    "first_seen": "2025-07-23T18:42:04.144814+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144819+00:00"
-  },
-  "rule_8890_app/config_2.py": {
-    "first_seen": "2025-07-23T18:42:04.144832+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144839+00:00"
-  },
-  "rule_4849_app/config_2.py": {
-    "first_seen": "2025-07-23T18:42:04.144852+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144856+00:00"
-  },
-  "rule_3360_app/config_3.py": {
-    "first_seen": "2025-07-23T18:42:04.144865+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144872+00:00"
-  },
-  "rule_9568_app/config_3.py": {
-    "first_seen": "2025-07-23T18:42:04.144884+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144892+00:00"
-  },
-  "rule_4432_app/config_4.py": {
-    "first_seen": "2025-07-23T18:42:04.144911+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144917+00:00"
-  },
-  "rule_8352_app/config_5.py": {
-    "first_seen": "2025-07-23T18:42:04.144929+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144935+00:00"
-  },
-  "rule_6439_app/config_5.py": {
-    "first_seen": "2025-07-23T18:42:04.144944+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144949+00:00"
-  },
-  "rule_9586_app/config_6.py": {
-    "first_seen": "2025-07-23T18:42:04.144958+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144963+00:00"
-  },
-  "rule_4418_app/config_6.py": {
-    "first_seen": "2025-07-23T18:42:04.144972+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144976+00:00"
-  },
-  "rule_9723_app/config_6.py": {
-    "first_seen": "2025-07-23T18:42:04.144984+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.144989+00:00"
-  },
-  "rule_4412_app/config_7.py": {
-    "first_seen": "2025-07-23T18:42:04.145005+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.145011+00:00"
-  },
-  "rule_3522_app/config_7.py": {
-    "first_seen": "2025-07-23T18:42:04.145020+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.145029+00:00"
-  },
-  "rule_6392_app/config_7.py": {
-    "first_seen": "2025-07-23T18:42:04.145038+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.145045+00:00"
-  },
-  "rule_8352_app/config_8.py": {
-    "first_seen": "2025-07-23T18:42:04.145054+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.145058+00:00"
-  },
-  "rule_5502_app/config_9.py": {
-    "first_seen": "2025-07-23T18:42:04.145066+00:00",
-    "repeat_count": 0,
-    "last_seen": "2025-07-23T18:42:04.145070+00:00"
-  },
-  "rule_2618_app/config_0.py": {
-    "first_seen": "2025-07-23T19:00:25.138565",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.138702"
-  },
-  "rule_2612_app/config_0.py": {
-    "first_seen": "2025-07-23T19:00:25.139007",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139024"
-  },
-  "rule_7894_app/config_0.py": {
-    "first_seen": "2025-07-23T19:00:25.139043",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139049"
-  },
-  "rule_4093_app/config_1.py": {
-    "first_seen": "2025-07-23T19:00:25.139062",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139066"
-  },
-  "rule_6528_app/config_2.py": {
-    "first_seen": "2025-07-23T19:00:25.139075",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139079"
-  },
-  "rule_5840_app/config_2.py": {
-    "first_seen": "2025-07-23T19:00:25.139087",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139091"
-  },
-  "rule_2263_app/config_3.py": {
-    "first_seen": "2025-07-23T19:00:25.139100",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139104"
-  },
-  "rule_1024_app/config_4.py": {
-    "first_seen": "2025-07-23T19:00:25.139112",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139116"
-  },
-  "rule_8362_app/config_4.py": {
-    "first_seen": "2025-07-23T19:00:25.139123",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139127"
-  },
-  "rule_7166_app/config_4.py": {
-    "first_seen": "2025-07-23T19:00:25.139142",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139147"
-  },
-  "rule_6172_app/config_5.py": {
-    "first_seen": "2025-07-23T19:00:25.139155",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139161"
-  },
-  "rule_1593_app/config_5.py": {
-    "first_seen": "2025-07-23T19:00:25.139171",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139174"
-  },
-  "rule_3993_app/config_5.py": {
-    "first_seen": "2025-07-23T19:00:25.139181",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139185"
-  },
-  "rule_6022_app/config_6.py": {
-    "first_seen": "2025-07-23T19:00:25.139193",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139197"
-  },
-  "rule_6745_app/config_6.py": {
-    "first_seen": "2025-07-23T19:00:25.139205",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139210"
-  },
-  "rule_6145_app/config_6.py": {
-    "first_seen": "2025-07-23T19:00:25.139220",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139224"
-  },
-  "rule_1129_app/config_7.py": {
-    "first_seen": "2025-07-23T19:00:25.139232",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139235"
-  },
-  "rule_1497_app/config_8.py": {
-    "first_seen": "2025-07-23T19:00:25.139242",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139245"
-  },
-  "rule_1511_app/config_8.py": {
-    "first_seen": "2025-07-23T19:00:25.139251",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139255"
-  },
-  "rule_3336_app/config_9.py": {
-    "first_seen": "2025-07-23T19:00:25.139262",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139266"
-  },
-  "rule_9943_app/config_9.py": {
-    "first_seen": "2025-07-23T19:00:25.139273",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:00:25.139277"
-  },
-  "rule_9303_app/config_0.py": {
-    "first_seen": "2025-07-23T19:11:42.505294",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505444"
-  },
-  "rule_8347_app/config_0.py": {
-    "first_seen": "2025-07-23T19:11:42.505715",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505731"
-  },
-  "rule_5132_app/config_0.py": {
-    "first_seen": "2025-07-23T19:11:42.505749",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505755"
-  },
-  "rule_9452_app/config_1.py": {
-    "first_seen": "2025-07-23T19:11:42.505766",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505770"
-  },
-  "rule_5907_app/config_2.py": {
-    "first_seen": "2025-07-23T19:11:42.505780",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505784"
-  },
-  "rule_6890_app/config_2.py": {
-    "first_seen": "2025-07-23T19:11:42.505792",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505796"
-  },
-  "rule_8088_app/config_2.py": {
-    "first_seen": "2025-07-23T19:11:42.505803",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505815"
-  },
-  "rule_7544_app/config_3.py": {
-    "first_seen": "2025-07-23T19:11:42.505824",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505829"
-  },
-  "rule_4776_app/config_3.py": {
-    "first_seen": "2025-07-23T19:11:42.505835",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505839"
-  },
-  "rule_2081_app/config_4.py": {
-    "first_seen": "2025-07-23T19:11:42.505847",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505851"
-  },
-  "rule_5616_app/config_4.py": {
-    "first_seen": "2025-07-23T19:11:42.505857",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505861"
-  },
-  "rule_2173_app/config_4.py": {
-    "first_seen": "2025-07-23T19:11:42.505869",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505874"
-  },
-  "rule_3853_app/config_5.py": {
-    "first_seen": "2025-07-23T19:11:42.505882",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505886"
-  },
-  "rule_6738_app/config_5.py": {
-    "first_seen": "2025-07-23T19:11:42.505893",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505897"
-  },
-  "rule_9090_app/config_6.py": {
-    "first_seen": "2025-07-23T19:11:42.505904",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505907"
-  },
-  "rule_9319_app/config_7.py": {
-    "first_seen": "2025-07-23T19:11:42.505919",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505923"
-  },
-  "rule_6092_app/config_8.py": {
-    "first_seen": "2025-07-23T19:11:42.505931",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505935"
-  },
-  "rule_5269_app/config_9.py": {
-    "first_seen": "2025-07-23T19:11:42.505944",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:11:42.505948"
-  },
-  "rule_4049_app/config_0.py": {
-    "first_seen": "2025-07-23T19:22:48.468801",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469321"
-  },
-  "rule_6513_app/config_1.py": {
-    "first_seen": "2025-07-23T19:22:48.469646",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469657"
-  },
-  "rule_1319_app/config_2.py": {
-    "first_seen": "2025-07-23T19:22:48.469671",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469676"
-  },
-  "rule_4989_app/config_3.py": {
-    "first_seen": "2025-07-23T19:22:48.469683",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469686"
-  },
-  "rule_7989_app/config_3.py": {
-    "first_seen": "2025-07-23T19:22:48.469692",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469695"
-  },
-  "rule_7584_app/config_4.py": {
-    "first_seen": "2025-07-23T19:22:48.469708",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469714"
-  },
-  "rule_8922_app/config_4.py": {
-    "first_seen": "2025-07-23T19:22:48.469720",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469723"
-  },
-  "rule_4013_app/config_4.py": {
-    "first_seen": "2025-07-23T19:22:48.469728",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469731"
-  },
-  "rule_8296_app/config_5.py": {
-    "first_seen": "2025-07-23T19:22:48.469736",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469739"
-  },
-  "rule_1852_app/config_5.py": {
-    "first_seen": "2025-07-23T19:22:48.469744",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469747"
-  },
-  "rule_4971_app/config_6.py": {
-    "first_seen": "2025-07-23T19:22:48.469753",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469756"
-  },
-  "rule_8883_app/config_6.py": {
-    "first_seen": "2025-07-23T19:22:48.469762",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469765"
-  },
-  "rule_6347_app/config_7.py": {
-    "first_seen": "2025-07-23T19:22:48.469771",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469774"
-  },
-  "rule_9236_app/config_7.py": {
-    "first_seen": "2025-07-23T19:22:48.469783",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469786"
-  },
-  "rule_1292_app/config_8.py": {
-    "first_seen": "2025-07-23T19:22:48.469792",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469794"
-  },
-  "rule_9624_app/config_9.py": {
-    "first_seen": "2025-07-23T19:22:48.469799",
-    "repeat_count": 1,
-    "last_seen": "2025-07-23T19:22:48.469802"
-  },
-  "ENV_SECRET_scripts/deploy.sh": {
-    "first_seen": "2025-07-23T20:02:10.207973",
-    "repeat_count": 14,
-    "last_seen": "2025-07-25T20:56:40.627865",
-    "commit_hash": "573f084cd9936b04892d62a30b2b98c05e25aa17"
-  },
-  "HARDCODED_TOKEN_src/api/token_handler.py": {
-    "first_seen": "2025-07-23T20:02:10.219524",
-    "repeat_count": 6,
-    "last_seen": "2025-07-24T18:38:40.183790"
-  },
-  "PASSWORD_STRING_README.md": {
-    "first_seen": "2025-07-23T20:02:10.219567",
-    "repeat_count": 21,
-    "last_seen": "2025-07-25T20:55:57.204449",
-    "commit_hash": "3d5de0e6b6a42a49decea087363fc3b020cfd601"
-  },
-  "SECRET_API_KEY_src/api/token_handler.py": {
-    "first_seen": "2025-07-23T20:02:10.219588",
-    "repeat_count": 9,
-    "last_seen": "2025-07-25T20:50:34.373867",
-    "commit_hash": "UNKNOWN"
-  },
-  "SECRET_API_KEY_init/setup_env.sh": {
-    "first_seen": "2025-07-23T20:02:10.219607",
-    "repeat_count": 30,
-    "last_seen": "2025-07-25T20:56:40.628091",
-    "commit_hash": "4d76607b3a6e3776d57849ee3b6fad16ac2dd713"
-  },
-  "SECRET_API_KEY_src/db/db_config.py": {
-    "first_seen": "2025-07-23T20:02:10.219632",
-    "repeat_count": 18,
-    "last_seen": "2025-07-25T20:55:57.204399",
-    "commit_hash": "e0af9882b5a50c2e3886c93032862c1feb72c6a3"
-  },
-  "ENV_SECRET_config/api_keys.json": {
-    "first_seen": "2025-07-23T20:02:10.219646",
-    "repeat_count": 12,
-    "last_seen": "2025-07-25T20:56:40.628157",
-    "commit_hash": "ef78bc255cb1c15bc332a089bb8b23fecab92959"
-  },
-  "ENV_SECRET_src/db/db_config.py": {
-    "first_seen": "2025-07-23T20:02:10.219664",
-    "repeat_count": 12,
-    "last_seen": "2025-07-25T20:20:39.008126"
-  },
-  "PASSWORD_STRING_src/api/token_handler.py": {
-    "first_seen": "2025-07-23T20:02:10.219688",
-    "repeat_count": 10,
-    "last_seen": "2025-07-25T20:50:34.373732",
-    "commit_hash": "UNKNOWN"
-  },
-  "HARDCODED_TOKEN_config/credentials.yml": {
-    "first_seen": "2025-07-23T20:02:10.219699",
-    "repeat_count": 10,
-    "last_seen": "2025-07-25T20:20:39.008183"
-  },
-  "SECRET_API_KEY_config/credentials.yml": {
-    "first_seen": "2025-07-23T20:02:10.219746",
-    "repeat_count": 10,
-    "last_seen": "2025-07-25T20:50:34.373804",
-    "commit_hash": "UNKNOWN"
-  },
-  "ENV_SECRET_src/app/auth.py": {
-    "first_seen": "2025-07-23T20:02:10.219783",
-    "repeat_count": 7,
-    "last_seen": "2025-07-25T18:51:37.532824"
-  },
-  "ENV_SECRET_src/api/token_handler.py": {
-    "first_seen": "2025-07-23T20:14:15.716974",
-    "repeat_count": 16,
-    "last_seen": "2025-07-25T20:50:34.373976",
-    "commit_hash": "UNKNOWN"
-  },
-  "HARDCODED_TOKEN_README.md": {
-    "first_seen": "2025-07-23T20:14:15.717336",
-    "repeat_count": 3,
-    "last_seen": "2025-07-25T20:55:57.204358",
-    "commit_hash": "b2957cf4942c116576d303e4126e4149154ff559"
-  },
-  "ENV_SECRET_init/setup_env.sh": {
-    "first_seen": "2025-07-23T20:14:15.717373",
-    "repeat_count": 7,
-    "last_seen": "2025-07-25T20:55:57.204388",
-    "commit_hash": "586da128c40b5c94df1bbecb29af77c0eea7dec6"
-  },
-  "HARDCODED_TOKEN_config/api_keys.json": {
-    "first_seen": "2025-07-23T20:14:15.717395",
-    "repeat_count": 13,
-    "last_seen": "2025-07-25T20:55:57.204141",
-    "commit_hash": "cf4981a21a6aeed47e6741ed2df566634ed2cf68"
-  },
-  "SECRET_API_KEY_Dockerfile": {
-    "first_seen": "2025-07-23T20:14:15.717407",
-    "repeat_count": 11,
-    "last_seen": "2025-07-25T20:56:40.628141",
-    "commit_hash": "00264f1c730b363feac41c488e3a1c9edcedc2c5"
-  },
-  "SECRET_API_KEY_README.md": {
-    "first_seen": "2025-07-23T20:14:15.717425",
-    "repeat_count": 6,
-    "last_seen": "2025-07-24T18:38:40.183926"
-  },
-  "ENV_SECRET_README.md": {
-    "first_seen": "2025-07-23T20:14:15.717440",
-    "repeat_count": 21,
-    "last_seen": "2025-07-25T20:20:39.008776"
-  },
-  "PASSWORD_STRING_src/utils/secrets.py": {
-    "first_seen": "2025-07-23T20:57:40.113118",
-    "repeat_count": 13,
-    "last_seen": "2025-07-25T20:55:57.204338",
-    "commit_hash": "b99c752064be7d71bdc463634294be152e938897"
-  },
   "HARDCODED_TOKEN_src/utils/secrets.py": {
-    "first_seen": "2025-07-23T20:57:40.113395",
-    "repeat_count": 5,
-    "last_seen": "2025-07-25T20:56:40.627643",
-    "commit_hash": "16848426f13386d6400cae304337522a3abc6597"
-  },
-  "HARDCODED_TOKEN_src/app/auth.py": {
-    "first_seen": "2025-07-23T20:57:40.113423",
-    "repeat_count": 7,
-    "last_seen": "2025-07-25T20:50:34.373546",
-    "commit_hash": "UNKNOWN"
-  },
-  "HARDCODED_TOKEN_init/setup_env.sh": {
-    "first_seen": "2025-07-23T20:57:40.113451",
-    "repeat_count": 15,
-    "last_seen": "2025-07-25T18:51:37.532886"
-  },
-  "PASSWORD_STRING_src/db/db_config.py": {
-    "first_seen": "2025-07-23T20:57:40.113509",
-    "repeat_count": 19,
-    "last_seen": "2025-07-25T20:56:40.628194",
-    "commit_hash": "5c00c9827e11d934f74e7a86afc9e42badf7217c"
-  },
-  "HARDCODED_TOKEN_scripts/deploy.sh": {
-    "first_seen": "2025-07-23T20:57:40.113568",
-    "repeat_count": 16,
-    "last_seen": "2025-07-25T20:55:57.204504",
-    "commit_hash": "d6cee91898e84ce0c67e5ae772512f7334e24231"
-  },
-  "SECRET_API_KEY_config/api_keys.json": {
-    "first_seen": "2025-07-23T20:57:40.113587",
-    "repeat_count": 10,
-    "last_seen": "2025-07-25T18:51:37.532941"
-  },
-  "SECRET_API_KEY_scripts/deploy.sh": {
-    "first_seen": "2025-07-24T18:12:00.543751",
-    "repeat_count": 11,
-    "last_seen": "2025-07-25T20:56:40.628033",
-    "commit_hash": "c24ffc9c193b5e428d683c8ff06fb293fbaf4f99"
-  },
-  "HARDCODED_TOKEN_Dockerfile": {
-    "first_seen": "2025-07-24T18:12:00.543953",
-    "repeat_count": 5,
-    "last_seen": "2025-07-25T20:20:39.008244"
-  },
-  "ENV_SECRET_Dockerfile": {
-    "first_seen": "2025-07-24T18:29:03.965519",
-    "repeat_count": 9,
-    "last_seen": "2025-07-25T20:20:39.009235"
-  },
-  "ENV_SECRET_config/credentials.yml": {
-    "first_seen": "2025-07-24T18:29:03.965744",
-    "repeat_count": 8,
-    "last_seen": "2025-07-25T20:20:39.008814"
-  },
-  "PASSWORD_STRING_src/app/auth.py": {
-    "first_seen": "2025-07-24T18:29:03.965818",
-    "repeat_count": 11,
-    "last_seen": "2025-07-25T20:56:40.627943",
-    "commit_hash": "e17fb1208043e137317702a52688a8dc77e32bb6"
-  },
-  "SECRET_API_KEY_src/app/auth.py": {
-    "first_seen": "2025-07-24T18:38:40.183554",
-    "repeat_count": 12,
-    "last_seen": "2025-07-25T20:56:40.627898",
-    "commit_hash": "e9f2fb496a42990ecc604ce5f82a6fd9e0ca43ca"
-  },
-  "PASSWORD_STRING_scripts/deploy.sh": {
-    "first_seen": "2025-07-24T18:38:40.183797",
-    "repeat_count": 5,
-    "last_seen": "2025-07-25T20:20:09.893963"
-  },
-  "ENV_SECRET_src/utils/secrets.py": {
-    "first_seen": "2025-07-24T18:38:40.183947",
-    "repeat_count": 14,
-    "last_seen": "2025-07-25T20:55:57.204262",
-    "commit_hash": "51aa8c77a4d578132e445ae4b831ee7eac0a1514"
+    "first_seen": "2025-07-26T08:44:12.516733",
+    "repeat_count": 1,
+    "last_seen": "2025-07-26T08:44:12.516988",
+    "commit_hash": "5f1e577bd9ff6016964534bdcc72af2a251d95f6"
   },
   "PASSWORD_STRING_config/api_keys.json": {
-    "first_seen": "2025-07-24T18:38:40.183958",
-    "repeat_count": 5,
-    "last_seen": "2025-07-25T20:56:40.627759",
-    "commit_hash": "47de7833925bae7bb2d06f1bdee0a88b45bb714c"
-  },
-  "HARDCODED_TOKEN_src/db/db_config.py": {
-    "first_seen": "2025-07-24T18:42:52.953898",
-    "repeat_count": 9,
-    "last_seen": "2025-07-25T20:56:40.628077",
-    "commit_hash": "4c79d82b53c975c4c9a7758024b8563a4ec9981c"
-  },
-  "PASSWORD_STRING_init/setup_env.sh": {
-    "first_seen": "2025-07-24T18:42:52.954232",
-    "repeat_count": 12,
-    "last_seen": "2025-07-25T20:56:40.627811",
-    "commit_hash": "db8edac39238a7020a76cef285ed70d12c13ad3e"
-  },
-  "SECRET_API_KEY_src/utils/secrets.py": {
-    "first_seen": "2025-07-24T18:42:52.954298",
-    "repeat_count": 6,
-    "last_seen": "2025-07-25T20:20:39.008221"
-  },
-  "PASSWORD_STRING_Dockerfile": {
-    "first_seen": "2025-07-24T18:42:52.954329",
-    "repeat_count": 8,
-    "last_seen": "2025-07-25T20:56:40.627991",
-    "commit_hash": "540072df4fc55e849f212c860e40fec4117829ec"
+    "first_seen": "2025-07-26T08:44:12.517072",
+    "repeat_count": 3,
+    "last_seen": "2025-07-26T08:44:12.517329",
+    "commit_hash": "8bf5f613e1850ff52e4df7dbc2ad10e718405d87"
   },
   "PASSWORD_STRING_config/credentials.yml": {
-    "first_seen": "2025-07-25T20:20:39.008572",
-    "repeat_count": 6,
-    "last_seen": "2025-07-25T20:56:40.627795",
-    "commit_hash": "92966339300ba042a9b2cf50bdb03b86ca3c343c"
+    "first_seen": "2025-07-26T08:44:12.517354",
+    "repeat_count": 2,
+    "last_seen": "2025-07-26T08:44:12.517384",
+    "commit_hash": "dd78c139880407296d08fbc434f3c3ae36f43b04"
+  },
+  "PASSWORD_STRING_init/setup_env.sh": {
+    "first_seen": "2025-07-26T08:44:12.517406",
+    "repeat_count": 1,
+    "last_seen": "2025-07-26T08:44:12.517412",
+    "commit_hash": "f16d9f79fe8ebbb1c8be08834fc5668ab819a40b"
+  },
+  "ENV_SECRET_scripts/deploy.sh": {
+    "first_seen": "2025-07-26T08:44:12.517438",
+    "repeat_count": 3,
+    "last_seen": "2025-07-26T08:44:12.517484",
+    "commit_hash": "a77372274d708e2f00d6b9d6312282890dc0bbb5"
+  },
+  "SECRET_API_KEY_src/app/auth.py": {
+    "first_seen": "2025-07-26T08:44:12.517502",
+    "repeat_count": 2,
+    "last_seen": "2025-07-26T08:44:12.517534",
+    "commit_hash": "735e22b63c01a1e333db290a3ab7aca6ac4d1e9e"
+  },
+  "PASSWORD_STRING_src/app/auth.py": {
+    "first_seen": "2025-07-26T08:44:12.517550",
+    "repeat_count": 3,
+    "last_seen": "2025-07-26T08:44:12.517584",
+    "commit_hash": "6d0e52f3ed74acc1036225d0ef2968e4f3985594"
+  },
+  "SECRET_API_KEY_scripts/deploy.sh": {
+    "first_seen": "2025-07-26T08:44:12.517600",
+    "repeat_count": 4,
+    "last_seen": "2025-07-26T08:44:12.517680",
+    "commit_hash": "6fd5e807049cb8f4ad87a4dd4d4ae9c44aab8a60"
+  },
+  "PASSWORD_STRING_Dockerfile": {
+    "first_seen": "2025-07-26T08:44:12.517620",
+    "repeat_count": 2,
+    "last_seen": "2025-07-26T08:44:12.517638",
+    "commit_hash": "ed8f25dedd2f8d3fd250c63cf9c7ab16760de0b7"
+  },
+  "HARDCODED_TOKEN_src/db/db_config.py": {
+    "first_seen": "2025-07-26T08:44:12.517694",
+    "repeat_count": 3,
+    "last_seen": "2025-07-26T08:44:12.517728",
+    "commit_hash": "03b304a55648ff522ecd7e20c4baf2df2a599428"
+  },
+  "SECRET_API_KEY_init/setup_env.sh": {
+    "first_seen": "2025-07-26T08:44:12.517742",
+    "repeat_count": 1,
+    "last_seen": "2025-07-26T08:44:12.517746",
+    "commit_hash": "2d5d677be7a8f0708864f64e63f35bf0bcbc126f"
+  },
+  "SECRET_API_KEY_Dockerfile": {
+    "first_seen": "2025-07-26T08:44:12.517762",
+    "repeat_count": 3,
+    "last_seen": "2025-07-26T08:44:12.517795",
+    "commit_hash": "721aa52ba4d2dcf5b6177ad0f864a4b80a08a643"
+  },
+  "ENV_SECRET_config/api_keys.json": {
+    "first_seen": "2025-07-26T08:44:12.517809",
+    "repeat_count": 1,
+    "last_seen": "2025-07-26T08:44:12.517813",
+    "commit_hash": "4961ca93dd67f0bf773d185ada4c93b1d304ac7b"
+  },
+  "PASSWORD_STRING_src/db/db_config.py": {
+    "first_seen": "2025-07-26T08:44:12.517828",
+    "repeat_count": 2,
+    "last_seen": "2025-07-26T08:44:12.517846",
+    "commit_hash": "a27d5666b0cbffe894a731aa49c411c52aff5e46"
   }
 }

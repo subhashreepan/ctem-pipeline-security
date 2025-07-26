@@ -2,7 +2,7 @@ import json
 import os
 import random
 import string
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
 TRIVY_RESULTS_PATH = "trivy-results.json"
@@ -19,8 +19,18 @@ def load_json(path):
     return {} if path == MEMORY_DB_PATH else []
 
 def generate_fake_commit_hash():
-    # Generate a 40-character lowercase hex string (SHA-1 style)
     return ''.join(random.choices('0123456789abcdef', k=40))
+
+def human_friendly_timedelta(delta):
+    if delta.days > 0:
+        return f"{delta.days} day{'s' if delta.days != 1 else ''} ago"
+    hours = delta.seconds // 3600
+    if hours > 0:
+        return f"{hours} hour{'s' if hours != 1 else ''} ago"
+    minutes = (delta.seconds % 3600) // 60
+    if minutes > 0:
+        return f"{minutes} minute{'s' if minutes != 1 else ''} ago"
+    return "just now"
 
 def extract_repeated_secrets(trivy_data, memory_db):
     repeated = defaultdict(lambda: {
@@ -65,27 +75,37 @@ def extract_repeated_secrets(trivy_data, memory_db):
 
     return repeated, memory_db
 
-def build_dashboard_data(repeated_dict):
+def build_dashboard_data(repeated_dict, memory_db):
     dashboard_entries = []
+    now = datetime.utcnow().replace(tzinfo=timezone.utc)
 
-    for _, details in repeated_dict.items():
-        start_date = datetime(2025, 1, 1)
-        end_date = datetime(2025, 7, 31)
-        delta = end_date - start_date
-        random_days = random.randint(0, delta.days)
-        random_time = timedelta(hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
-        varied_time = start_date + timedelta(days=random_days) + random_time
-        timestamp = varied_time.isoformat()
+    for fingerprint, details in repeated_dict.items():
+        first_seen_str = memory_db[fingerprint].get("first_seen")
+        last_seen_str = memory_db[fingerprint].get("last_seen")
+
+        try:
+            first_seen = datetime.fromisoformat(first_seen_str).replace(tzinfo=timezone.utc)
+        except:
+            first_seen = now
+        try:
+            last_seen = datetime.fromisoformat(last_seen_str).replace(tzinfo=timezone.utc)
+        except:
+            last_seen = now
+
+        time_since_first = human_friendly_timedelta(now - first_seen)
+        time_since_last = human_friendly_timedelta(now - last_seen)
 
         entry = {
-            "timestamp": timestamp,
+            "timestamp": last_seen_str,
             "count": details["count"],
             "file": details["file"],
             "type": details["type"],
             "contributor": ", ".join(details["contributors"]),
             "severity": details.get("severity", "UNKNOWN"),
             "status": "repeated" if details["count"] > 1 else "new",
-            "commit_hash": details.get("commit_hash", "")
+            "commit_hash": details.get("commit_hash", ""),
+            "time_since_first_seen": time_since_first,
+            "time_since_last_seen": time_since_last
         }
         dashboard_entries.append(entry)
 
@@ -96,7 +116,7 @@ def main():
     memory_db = load_json(MEMORY_DB_PATH)
 
     repeated_dict, updated_memory = extract_repeated_secrets(trivy_data, memory_db)
-    dashboard_data = build_dashboard_data(repeated_dict)
+    dashboard_data = build_dashboard_data(repeated_dict, updated_memory)
 
     REPEAT_THRESHOLD = 2
     alert_entries = [v for v in repeated_dict.values() if v["count"] >= REPEAT_THRESHOLD]
