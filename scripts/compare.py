@@ -1,5 +1,3 @@
-# scripts/compare.py
-
 import json
 import sqlite3
 import os
@@ -14,7 +12,7 @@ os.makedirs("memory", exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 
-# Create table if not exists
+# Create table 
 cur.execute("""
 CREATE TABLE IF NOT EXISTS vulnerabilities (
     vuln_id TEXT,
@@ -68,4 +66,4 @@ for vuln_id, desc, path, severity in current_vulns:
 conn.commit()
 conn.close()
 
-print("✅ compare.py executed and updated exposure.db")
+print("compare.py executed and updated exposure.db")
