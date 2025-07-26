@@ -1,19 +1,21 @@
 {
   "entries": [
     {
-      "timestamp": "2025-02-19T05:39:09",
-      "count": 3,
+      "timestamp": "2025-07-26T08:59:25.503455",
+      "count": 1,
       "file": "app/config/secret_config.py",
       "type": "stripe-secret-token",
       "contributor": "UnknownUser",
       "severity": "CRITICAL",
-      "status": "repeated",
-      "commit_hash": "bf7d3badd58fcd16c11f1c75f729acd9d2d933a2"
+      "status": "new",
+      "commit_hash": "4746e1a3462b7f11c9f3012308fb75820943f1c7",
+      "time_since_first_seen": "just now",
+      "time_since_last_seen": "just now"
     }
   ],
   "alert": {
-    "active": true,
-    "count": 1,
+    "active": false,
+    "count": 0,
     "threshold": 2
   }
 }

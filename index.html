@@ -46,10 +46,11 @@
           <th>Count</th>
           <th>Status</th>
           <th>Commit Hash</th>
+          <th>Since First Seen (days)</th>
+          <th>Since Last Seen (days)</th>
         </tr>
       </thead>
-      <tbody>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 
@@ -106,6 +107,8 @@
             <td title="${entry.count || 0}">${entry.count || 0}</td>
             <td>${statusBadge}</td>
             <td title="${entry.commit_hash || ''}">${commitShort}</td>
+            <td>${entry.time_since_first_seen ?? 'N/A'}</td>
+            <td>${entry.time_since_last_seen ?? 'N/A'}</td>
           `;
           tbody.appendChild(row);
         });
