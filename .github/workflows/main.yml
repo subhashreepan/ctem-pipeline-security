@@ -36,6 +36,12 @@ jobs:
           mkdir -p reports
           trivy fs . --format json --output trivy-results.json --exit-code 0
 
+      - name: Run GitLeaks scan
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+          args: "--report-path gitleaks-report.json --no-banner"
+
       - name: Run memory tracker
         run: |
           if [ -f scripts/memory_tracker.py ]; then
