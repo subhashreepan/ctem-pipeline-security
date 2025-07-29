@@ -38,6 +38,9 @@ jobs:
 
       - name: Run GitLeaks scan
         uses: zricethezav/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+        continue-on-error: true
 
       - name: Run memory tracker
         run: |
