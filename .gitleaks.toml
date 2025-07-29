@@ -1,14 +1,83 @@
-[[rules]]
-description = "Generic API Key"
-regex = '''(?i)(api[_-]?key\s*=\s*['"][a-z0-9_\-]{16,}['"])'''
-tags = ["key", "API"]
+title = "CTEM Gitleaks Rules"
+description = "Custom rules for detecting various secrets in the CTEM repository"
+redact = true
+report = "gitleaks-report.json"
 
 [[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key\s*=\s*['"][a-z0-9_\-]{16,}['"])'''
+tags = ["key", "api", "generic"]
+
+[[rules]]
+id = "stripe-api-key"
 description = "Stripe API Key"
-regex = '''sk_(live|test)_[0-9a-zA-Z]{16,}'''
+regex = '''sk_(live|test)_[0-9a-zA-Z]{24}'''
 tags = ["key", "stripe"]
 
 [[rules]]
+id = "aws-access-key"
+description = "AWS Access Key ID"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "aws"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)aws_secret_access_key\s*=\s*['"][0-9a-zA-Z/+]{40}['"]'''
+tags = ["key", "aws"]
+
+[[rules]]
+id = "google-api-key"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+tags = ["key", "google"]
+
+[[rules]]
+id = "private-rsa-key"
+description = "Private RSA Key"
+regex = '''-----BEGIN RSA PRIVATE KEY-----'''
+tags = ["key", "private", "rsa"]
+
+[[rules]]
+id = "hardcoded-db-password"
 description = "Hardcoded Database Password"
-regex = '''DATABASE_PASSWORD\s*=\s*['"][^'"]+['"]'''
-tags = ["password"]
+regex = '''(?i)DATABASE_PASSWORD\s*=\s*['"][^'"]+['"]'''
+tags = ["password", "database"]
+
+[[rules]]
+id = "heroku-api-key"
+description = "Heroku API Key"
+regex = '''(?i)heroku_api_key\s*=\s*['"][0-9a-f]{32}['"]'''
+tags = ["key", "heroku"]
+
+[[rules]]
+id = "slack-token"
+description = "Slack Token"
+regex = '''xox[baprs]-[0-9a-zA-Z]{10,48}'''
+tags = ["token", "slack"]
+
+[[rules]]
+id = "generic-token"
+description = "Generic Bearer Token"
+regex = '''(?i)bearer\s+[a-z0-9\._\-]+'''
+tags = ["token", "bearer"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Personal Access Token"
+regex = '''gh[pousr]_[0-9a-zA-Z]{36}'''
+tags = ["key", "github"]
+
+[[rules]]
+id = "password-in-url"
+description = "Password in URL"
+regex = '''(?i)https?://[^/]+:[^@]+@[^/]+'''
+tags = ["password", "url"]
+
+[[rules]]
+id = "generic-secret"
+description = "Generic Secret"
+regex = '''(?i)secret\s*=\s*['"][^'"]+['"]'''
+tags = ["secret", "generic"]
+
