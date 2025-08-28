@@ -1,6 +1,6 @@
 import json
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 OUTPUT_FILE = "trivy-results.json"
 
@@ -23,8 +23,13 @@ FILES = [
 RULE_IDS = ["SECRET_API_KEY", "HARDCODED_TOKEN", "ENV_SECRET", "PASSWORD_STRING"]
 
 def random_past_time(days_back=10):
-    now = datetime.utcnow()
-    return (now - timedelta(days=random.randint(0, days_back), seconds=random.randint(0, 86400))).isoformat()
+    # Use timezone-aware datetime to avoid deprecation warning
+    now = datetime.now(timezone.utc)
+    random_offset = timedelta(
+        days=random.randint(0, days_back),
+        seconds=random.randint(0, 86400)
+    )
+    return (now - random_offset).isoformat()
 
 def generate_secret(rule_id, contributor):
     return {
@@ -60,7 +65,7 @@ def main():
     fake_data = generate_trivy_results(15)
     with open(OUTPUT_FILE, "w") as f:
         json.dump(fake_data, f, indent=2)
-    print(f"[generate_fake_trivy.py] Written to {OUTPUT_FILE} with {len(fake_data['Results'])} entries.")
+    print(f"[generate_trivy.py] Written to {OUTPUT_FILE} with {len(fake_data['Results'])} entries.")
 
 if __name__ == "__main__":
     main()
